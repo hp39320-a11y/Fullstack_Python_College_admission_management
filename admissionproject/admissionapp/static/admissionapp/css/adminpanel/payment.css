@@ -1,0 +1,100 @@
+/* Title */
+.title {
+    text-align: center;
+    margin: 30px 0;
+    font-size: 2.2rem;
+    font-weight: 700;
+    color: #f8fafc;
+}
+
+/* Container */
+.container {
+    width: 95%;
+    margin: auto;
+    padding: 20px;
+}
+
+/* Table wrapper */
+.table-wrapper {
+    overflow-x: auto;
+    border-radius: 16px;
+}
+
+/* Table */
+.payment-table {
+    width: 100%;
+    border-collapse: collapse;
+    background: rgba(255, 255, 255, 0.04);
+    backdrop-filter: blur(12px);
+    border-radius: 16px;
+    overflow: hidden;
+}
+
+.payment-table thead {
+    background: rgba(255, 255, 255, 0.08);
+    color: #a5b4fc;
+}
+
+.payment-table th,
+.payment-table td {
+    padding: 16px;
+    color: #e5e7eb;
+}
+
+.payment-table tbody tr {
+    transition: 0.3s;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.payment-table tbody tr:hover {
+    background: rgba(255, 255, 255, 0.06);
+}
+
+/* Status badges */
+.status {
+    padding: 5px 12px;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: 500;
+}
+
+.status.pending {
+    background: rgba(243, 156, 18, 0.2);
+    color: #f39c12;
+    border: 1px solid rgba(243, 156, 18, 0.3);
+}
+
+.status.completed {
+    background: rgba(46, 204, 113, 0.2);
+    color: #2ecc71;
+    border: 1px solid rgba(46, 204, 113, 0.3);
+}
+
+.status.failed {
+    background: rgba(231, 76, 60, 0.2);
+    color: #e74c3c;
+    border: 1px solid rgba(231, 76, 60, 0.3);
+}
+
+/* Header */
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 25px;
+}
+
+.btn-back {
+    background: rgba(255, 255, 255, 0.05);
+    color: white;
+    padding: 8px 16px;
+    border-radius: 8px;
+    text-decoration: none;
+    font-size: 0.9rem;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    transition: 0.3s;
+}
+
+.btn-back:hover {
+    background: rgba(255, 255, 255, 0.12);
+}

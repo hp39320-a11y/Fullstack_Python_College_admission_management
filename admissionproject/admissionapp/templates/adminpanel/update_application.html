@@ -1,0 +1,181 @@
+
+<style>
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 9999;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(15, 23, 42, 0.8);
+    justify-content: center;
+    align-items: center;
+    backdrop-filter: blur(8px);
+}
+
+.modal-content {
+    background: #1e293b;
+    width: 450px;
+    padding: 32px;
+    border-radius: 24px;
+    position: relative;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+    animation: popup 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+@keyframes popup {
+    from { transform: translateY(20px) scale(0.95); opacity: 0; }
+    to { transform: translateY(0) scale(1); opacity: 1; }
+}
+
+.close {
+    position: absolute;
+    right: 24px;
+    top: 24px;
+    font-size: 28px;
+    cursor: pointer;
+    color: #94a3b8;
+    transition: 0.2s;
+}
+
+.close:hover {
+    color: #fff;
+    transform: rotate(90deg);
+}
+
+.modal-title {
+    font-size: 1.5rem;
+    font-weight: 800;
+    color: #fff;
+    margin-bottom: 24px;
+}
+
+.info-box {
+    background: rgba(255, 255, 255, 0.05);
+    padding: 20px;
+    border-radius: 16px;
+    margin-bottom: 24px;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.info-box p {
+    margin: 8px 0;
+    color: #94a3b8;
+    font-size: 0.95rem;
+}
+
+.info-box strong {
+    color: #fff;
+    margin-right: 8px;
+}
+
+.modal-form label {
+    display: block;
+    margin-bottom: 12px;
+    font-weight: 600;
+    color: #cbd5e1;
+    font-size: 0.9rem;
+}
+
+.modal-form select {
+    width: 100%;
+    padding: 14px;
+    border-radius: 12px;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: #fff;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.modal-form select:focus {
+    outline: none;
+    border-color: #6366f1;
+}
+
+.modal-form select option {
+    background: #1e293b;
+    color: #fff;
+}
+
+.btn-save {
+    width: 100%;
+    margin-top: 24px;
+    padding: 16px;
+    border: none;
+    border-radius: 14px;
+    background: linear-gradient(135deg, #4f46e5, #6366f1);
+    color: #fff;
+    font-size: 1rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: 0.3s;
+    box-shadow: 0 10px 20px rgba(79, 70, 229, 0.2);
+}
+
+.btn-save:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 15px 25px rgba(79, 70, 229, 0.3);
+}
+
+</style>
+
+<!-- UPDATE APPLICATION MODAL -->
+<div id="updateModal" class="modal">
+
+    <div class="modal-content">
+
+        <span class="close" onclick="closeModal()">&times;</span>
+
+        <h2 class="modal-title">Update Application</h2>
+
+        <div class="info-box">
+            <p><strong>Student:</strong> <span id="student_name"></span></p>
+            <p><strong>Course:</strong> <span id="course_name"></span></p>
+        </div>
+
+        <form method="post" id="updateForm" class="modal-form">
+            {% csrf_token %}
+
+            <label>Application Status</label>
+            <select name="status" id="status">
+                <option value="Pending">Pending</option>
+                <option value="Approved">Approved</option>
+                <option value="Rejected">Rejected</option>
+            </select>
+
+            <button type="submit" class="btn-save">Update Application</button>
+
+        </form>
+
+    </div>
+
+</div>
+
+<script>
+function openModal(id, student, course, status) {
+    const modal = document.getElementById("updateModal");
+    modal.style.display = "flex";
+
+    document.getElementById("student_name").innerText = student;
+    document.getElementById("course_name").innerText = course;
+    document.getElementById("status").value = status;
+    
+    // Dynamically set the form action
+    document.getElementById("updateForm").action = "/admin-panel/applications/update/" + id + "/";
+}
+
+function closeModal() {
+    document.getElementById("updateModal").style.display = "none";
+}
+
+window.onclick = function(event) {
+    let modal = document.getElementById("updateModal");
+    if (event.target == modal) {
+        closeModal();
+    }
+}
+</script>

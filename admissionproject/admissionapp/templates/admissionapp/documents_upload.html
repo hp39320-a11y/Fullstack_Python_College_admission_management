@@ -1,0 +1,119 @@
+{% extends 'admissionapp/base.html' %}
+{% load static %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'admissionapp/css/student_register.css' %}">
+
+<style>
+/* Center page */
+.container {
+    max-width: 500px;
+    margin: 80px auto;
+    padding: 30px;
+    background: rgba(255,255,255,0.05);
+    border-radius: 16px;
+    backdrop-filter: blur(10px);
+}
+
+/* Header */
+.header {
+    text-align: center;
+    margin-bottom: 25px;
+}
+
+.header h1 {
+    font-size: 1.8rem;
+}
+
+.header p {
+    color: #aaa;
+    font-size: 0.9rem;
+}
+
+/* Form layout */
+.form-step {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+}
+
+/* Input group */
+.input-group {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+/* Label */
+.input-group label {
+    color: #aaa;
+    font-size: 14px;
+}
+
+/* File input */
+.input-group input {
+    width: 100%;
+    border: 1px solid #444;
+    border-radius: 10px;
+    padding: 10px;
+    background: rgba(0,0,0,0.2);
+    color: white;
+}
+
+/* Button */
+.submit-btn {
+    margin-top: 20px;
+    padding: 12px;
+    border-radius: 10px;
+    border: none;
+    background: #6366f1;
+    color: white;
+    font-weight: 600;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.submit-btn:hover {
+    background: #4f46e5;
+}
+</style>
+{% endblock %}
+
+{% block content %}
+
+<form method="post" enctype="multipart/form-data" class="container">
+    {% csrf_token %}
+
+    <div class="header">
+        <h1>Upload Documents</h1>
+        <p>Please provide required certificates and ID</p>
+    </div>
+
+    <div class="form-step">
+
+        <h3 class="step-title">Required Documents</h3>
+
+        <div class="input-group">
+            <label>10th Marksheet</label>
+            <input type="file" name="tenth_doc" required>
+        </div>
+
+        <div class="input-group">
+            <label>12th Marksheet</label>
+            <input type="file" name="twelfth_doc" required>
+        </div>
+
+        <div class="input-group">
+            <label>Aadhaar Card / ID Proof</label>
+            <input type="file" name="id_doc" required>
+        </div>
+
+        <button type="submit" class="submit-btn">
+            Upload & Next
+        </button>
+
+    </div>
+
+</form>
+
+{% endblock %}

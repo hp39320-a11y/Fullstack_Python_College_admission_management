@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Students Table</title>
+
+<style>
+
+body{
+
+    background:#0f172a;
+    color:white;
+    font-family:Arial;
+    padding:30px;
+}
+
+.title{
+
+    font-size:32px;
+    margin-bottom:20px;
+}
+
+.export-btn{
+
+    background:#10b981;
+    color:white;
+    padding:12px 20px;
+    border-radius:10px;
+    text-decoration:none;
+    font-weight:bold;
+}
+
+.export-btn:hover{
+
+    background:#059669;
+}
+
+.table-container{
+
+    margin-top:30px;
+    overflow-x:auto;
+    background:#111827;
+    border-radius:20px;
+}
+
+table{
+
+    width:100%;
+    border-collapse:collapse;
+    min-width:1600px;
+}
+
+th{
+
+    background:#1e293b;
+    padding:15px;
+    text-align:left;
+    color:#cbd5e1;
+}
+
+td{
+
+    padding:14px;
+    border-top:1px solid rgba(255,255,255,0.05);
+}
+
+tr:hover{
+
+    background:rgba(255,255,255,0.03);
+}
+
+.status{
+
+    padding:5px 12px;
+    border-radius:20px;
+    font-size:12px;
+    font-weight:bold;
+}
+
+.Approved{
+
+    background:rgba(16,185,129,0.2);
+    color:#10b981;
+}
+
+.Pending{
+
+    background:rgba(234,179,8,0.2);
+    color:#eab308;
+}
+
+.Rejected{
+
+    background:rgba(239,68,68,0.2);
+    color:#ef4444;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<h1 class="title">
+
+Students Full Details
+
+</h1>
+
+<a href="{% url 'export_students_excel' %}"
+class="export-btn">
+
+📥 Export Excel
+
+</a>
+
+<div class="table-container">
+
+<table>
+
+<thead>
+
+<tr>
+
+<th>ID</th>
+<th>Name</th>
+<th>Email</th>
+<th>Phone</th>
+<th>DOB</th>
+<th>Gender</th>
+<th>Nationality</th>
+<th>Aadhaar</th>
+<th>Caste</th>
+<th>Religion</th>
+<th>Father</th>
+<th>Mother</th>
+<th>10th</th>
+<th>12th</th>
+<th>Institution</th>
+<th>Year</th>
+<th>Course</th>
+<th>Status</th>
+
+</tr>
+
+</thead>
+
+<tbody>
+
+{% for item in student_data %}
+
+<tr>
+
+<td>
+
+{{ item.student.student_id }}
+
+</td>
+
+<td>
+
+{{ item.student.first_name }}
+{{ item.student.last_name }}
+
+</td>
+
+<td>
+
+{{ item.student.email }}
+
+</td>
+
+<td>
+
+{{ item.student.phone }}
+
+</td>
+
+<td>
+
+{{ item.student.date_of_birth }}
+
+</td>
+
+<td>
+
+{{ item.student.gender }}
+
+</td>
+
+<td>
+
+{{ item.student.nationality }}
+
+</td>
+
+<td>
+
+{{ item.student.aadhaar_number }}
+
+</td>
+
+<td>
+
+{{ item.student.caste }}
+
+</td>
+
+<td>
+
+{{ item.student.religion }}
+
+</td>
+
+<td>
+
+{{ item.student.father_name }}
+
+</td>
+
+<td>
+
+{{ item.student.mother_name }}
+
+</td>
+
+<td>
+
+{% if item.academic %}
+
+{{ item.academic.tenth_marks }}%
+
+{% else %}
+
+N/A
+
+{% endif %}
+
+</td>
+
+<td>
+
+{% if item.academic %}
+
+{{ item.academic.twelfth_marks }}%
+
+{% else %}
+
+N/A
+
+{% endif %}
+
+</td>
+
+<td>
+
+{% if item.academic %}
+
+{{ item.academic.previous_institution }}
+
+{% else %}
+
+N/A
+
+{% endif %}
+
+</td>
+
+<td>
+
+{% if item.academic %}
+
+{{ item.academic.year_of_passing }}
+
+{% else %}
+
+N/A
+
+{% endif %}
+
+</td>
+
+<td>
+
+{% if item.application %}
+
+{{ item.application.course.course_name }}
+
+{% else %}
+
+N/A
+
+{% endif %}
+
+</td>
+
+<td>
+
+{% if item.application %}
+
+<span class="status {{ item.application.application_status }}">
+
+{{ item.application.application_status }}
+
+</span>
+
+{% else %}
+
+N/A
+
+{% endif %}
+
+</td>
+
+</tr>
+
+{% endfor %}
+
+</tbody>
+
+</table>
+
+</div>
+
+</body>
+
+</html>

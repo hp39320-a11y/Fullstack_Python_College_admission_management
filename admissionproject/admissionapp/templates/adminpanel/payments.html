@@ -1,0 +1,56 @@
+{% extends "adminpanel/base.html" %}
+{% load static %}
+
+{% block title %}Payments{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'admissionapp/css/adminpanel/payment.css' %}">
+{% endblock %}
+{% block content %}
+
+<div class="container">
+
+    <div class="header">
+        <h2 class="title">Payments</h2>
+
+        <!-- ✅ Back Button -->
+        <a class="btn-back" href="{% url 'admin_home' %}">
+            ← Back
+        </a>
+    </div>
+
+    <div class="table-wrapper">
+        <table class="payment-table">
+
+            <thead>
+                <tr>
+                    <th>Student</th>
+                    <th>Amount</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                {% for p in payments %}
+                <tr>
+                    <td>{{ p.student.first_name }}</td>
+                    <td>₹ {{ p.amount }}</td>
+                    <td>
+                        <span class="status {{ p.payment_status|lower }}">
+                            {{ p.payment_status }}
+                        </span>
+                    </td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="3">No payments found</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+
+        </table>
+    </div>
+
+</div>
+
+{% endblock %}

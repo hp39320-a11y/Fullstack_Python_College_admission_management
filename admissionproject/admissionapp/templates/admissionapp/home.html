@@ -1,0 +1,137 @@
+{% extends 'admissionapp/base.html' %}
+{% load static %}
+
+{% block title %}New Men College | Admission System{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'admissionapp/css/home.css' %}">
+{% endblock %}
+
+{% block content %}
+
+<!-- HERO SECTION -->
+<section class="hero">
+    <div class="hero-content">
+        <h1>Shape Your Future with <br>Expert Guidance</h1>
+        <p>
+            An elite campus committed to transforming ambitious students into
+            industry leaders. Experience the pinnacle of modern education.
+        </p>
+
+        <div class="hero-btns">
+            {% if request.session.user_id %}
+            <a href="{% url 'student_register' %}" class="btn-primary">
+                Continue Application
+            </a>
+            {% else %}
+            <a href="{% url 'register' %}" class="btn-primary">
+                Start Your Journey
+            </a>
+            {% endif %}
+            <a href="{% url 'course_list' %}" class="btn-secondary">
+                View All Programs
+            </a>
+        </div>
+    </div>
+</section>
+
+<!-- FEATURED COURSES -->
+<section class="featured-courses">
+    <div class="section-header">
+        <h2>Our Flagship Programs</h2>
+        <p>Discover courses designed to empower your career</p>
+    </div>
+
+    <div class="courses-grid">
+        {% for course in courses %}
+        <div class="course-card">
+            <div class="course-badge">Flagship</div>
+            <h3>{{ course.course_name }}</h3>
+            <p>
+                Experience a world-class curriculum in {{ course.course_name }}
+                with hands-on project work and industry placement.
+            </p>
+            <a href="{% url 'register' %}" class="apply-link">
+                Apply Today <span>→</span>
+            </a>
+        </div>
+        {% empty %}
+        <p class="empty-text">No courses listed at the moment.</p>
+        {% endfor %}
+    </div>
+</section>
+
+<!-- STATS SECTION -->
+<section class="stats">
+    <div class="stat-card">
+        <h2>50k+</h2>
+        <p>Active Alumni</p>
+    </div>
+    <div class="stat-card">
+        <h2>10+</h2>
+        <p>Degree Programs</p>
+    </div>
+    <div class="stat-card">
+        <h2>95%</h2>
+        <p>Placement Rate</p>
+    </div>
+    <div class="stat-card">
+        <h2>15+</h2>
+        <p>Accreditations</p>
+    </div>
+</section>
+
+<!-- CONTACT SECTION -->
+<section class="contact-preview reveal">
+    <div class="contact-grid">
+        <div class="contact-info">
+            <h2>Get in touch</h2>
+            <p>Have questions about the admission process? Our academic counselors are here to help you choose the right path.</p>
+
+            <div class="contact-methods">
+                <div class="method-card">
+                    <div class="method-icon">📞</div>
+                    <div class="method-details">
+                        <div class="method-title">+91 98765 43210</div>
+                        <div class="method-subtitle">Monday - Sat, 9am - 5pm</div>
+                    </div>
+                </div>
+                <div class="method-card">
+                    <div class="method-icon">✉️</div>
+                    <div class="method-details">
+                        <div class="method-title">admissions@newmencollege.edu.in</div>
+                        <div class="method-subtitle">Response within 24 hours</div>
+                    </div>
+                </div>
+                <div class="method-card">
+                    <div class="method-icon">📍</div>
+                    <div class="method-details">
+                        <div class="method-title">Academic City Campus</div>
+                        <div class="method-subtitle">State Parkway, Sector 12, India</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="map-container">
+            <div class="map-overlay"></div>
+            <div class="map-content">
+                <div class="map-box">
+                    <div class="map-icon">🗺️</div>
+                    <div class="map-text">Interactive Map Coming Soon</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- CALL TO ACTION -->
+<section class="cta-section">
+    <div class="cta-card">
+        <h2>Ready to take the next step?</h2>
+        <p>Join 2000+ students applying this semester.</p>
+        <a href="{% url 'register' %}" class="btn-primary btn-white">Apply For Admission</a>
+    </div>
+</section>
+
+{% endblock %}

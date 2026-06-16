@@ -1,0 +1,19 @@
+{% extends 'admissionapp/base.html' %}
+{% load static %}
+
+{% block title %}Payment Failed | New Men College{% endblock %}
+
+{% block content %}
+<div class="container" style="max-width: 550px; margin: 6rem auto; padding: 4rem; background: var(--card-bg); backdrop-filter: blur(20px); border: 1px solid var(--glass-border); border-radius: 32px; text-align: center;">
+    <div style="font-size: 5rem; margin-bottom: 1.5rem;">⚠️</div>
+    <h2 style="font-size: 2.2rem; font-weight: 800; color: #ef4444; margin-bottom: 1rem;">Payment Failed</h2>
+    <p style="color: var(--text-muted); font-size: 1.1rem; margin-bottom: 2.5rem; line-height: 1.6;">
+        We encountered an error while processing your transaction. Don't worry, no funds were deducted from your account.
+    </p>
+    
+    <div style="display: flex; flex-direction: column; gap: 15px;">
+        <a href="{% url 'payment' %}" class="btn-primary" style="background: linear-gradient(135deg, #ef4444, #dc2626); box-shadow: 0 10px 20px rgba(239, 68, 68, 0.3);">Retry Payment</a>
+        <a href="{% url 'dashboard' %}" style="color: var(--text-muted); text-decoration: none; font-size: 0.9rem; font-weight: 600;">Go to Dashboard</a>
+    </div>
+</div>
+{% endblock %}

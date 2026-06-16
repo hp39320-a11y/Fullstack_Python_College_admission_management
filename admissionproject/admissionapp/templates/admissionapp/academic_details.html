@@ -1,0 +1,57 @@
+{% extends 'admissionapp/base.html' %}
+{% load static %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'admissionapp/css/academic.css' %}">
+{% endblock %}
+
+{% block content %}
+
+<div class="container">
+
+    <form method="post" class="form-card">
+        {% csrf_token %}
+
+        <div class="header">
+            <h1>Academic Details</h1>
+            <p>Enter your previous education details</p>
+        </div>
+
+        <div class="form-grid">
+
+            <!-- 10th Marks -->
+            <div class="input-group">
+                <label>10th Marks (%)</label>
+                <input type="number" step="0.01" name="tenth_marks" value="{{ academic.tenth_marks|default:'' }}" placeholder="e.g. 85.50" required>
+            </div>
+
+            <!-- 12th Marks -->
+            <div class="input-group">
+                <label>12th Marks (%)</label>
+                <input type="number" step="0.01" name="twelfth_marks" value="{{ academic.twelfth_marks|default:'' }}" placeholder="e.g. 90.25" required>
+            </div>
+
+            <!-- Institution -->
+            <div class="input-group full-width">
+                <label>Previous Institution</label>
+                <input type="text" name="previous_institution" value="{{ academic.previous_institution|default:'' }}" placeholder="School / College Name" required>
+            </div>
+
+            <!-- Year -->
+            <div class="input-group">
+                <label>Year of Passing</label>
+                <input type="number" name="year_of_passing" value="{{ academic.year_of_passing|default:'' }}" placeholder="e.g. 2023" required>
+            </div>
+
+            <!-- Button -->
+            <div class="full-width">
+                <button type="submit" class="submit-btn">Next</button>
+            </div>
+
+        </div>
+
+    </form>
+
+</div>
+
+{% endblock %}

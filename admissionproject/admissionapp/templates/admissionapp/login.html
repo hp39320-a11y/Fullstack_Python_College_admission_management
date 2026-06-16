@@ -1,0 +1,66 @@
+{% extends 'admissionapp/base.html' %}
+{% load static %}
+
+{% block title %}Login | EduModern Admission System{% endblock %}
+
+{% block extra_css %}
+    <link rel="stylesheet" href="{% static 'admissionapp/css/register.css' %}">
+    <style>
+        .login-container {
+            max-width: 450px !important;
+            margin: 4rem auto;
+        }
+        .error-msg {
+            background: rgba(239, 68, 68, 0.1);
+            border: 1px solid rgba(239, 68, 68, 0.2);
+            color: #ef4444;
+            padding: 0.75rem;
+            border-radius: 12px;
+            text-align: center;
+            margin-bottom: 1.5rem;
+            font-size: 0.9rem;
+        }
+        @media (max-width: 480px) {
+            .login-container {
+                margin: 2rem auto;
+                padding: 2.5rem 1.5rem;
+            }
+        }
+    </style>
+{% endblock %}
+
+{% block content %}
+    <div class="container login-container">
+        <div class="header">
+            <h1>Welcome Back</h1>
+            <p>Login to manage your admission portal</p>
+        </div>
+
+        {% if error %}
+        <div class="error-msg">
+            {{ error }}
+        </div>
+        {% endif %}
+
+        <form method="post">
+            {% csrf_token %}
+            <div class="form-grid" style="grid-template-columns: 1fr;">
+                <div class="input-group">
+                    <label for="email">Email Address</label>
+                    <input type="email" name="email" id="email" placeholder="Enter your Email" required>
+                </div>
+                
+                <div class="input-group" style="margin-top: 1rem;">
+                    <label for="password">Password</label>
+                    <input type="password" name="password" id="password" placeholder="Enter Password" required>
+                </div>
+
+                <button type="submit" class="submit-btn" style="grid-column: span 1;">Login to Account</button>
+            </div>
+        </form>
+        
+        <div style="margin-top: 2rem; text-align: center; color: var(--text-muted); font-size: 0.9rem;">
+            Don't have an account? <a href="{% url 'register' %}" style="color: var(--primary); text-decoration: none; font-weight: 600;">Apply Now</a>
+        </div>
+    </div>
+{% endblock %}

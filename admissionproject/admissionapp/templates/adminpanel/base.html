@@ -1,0 +1,59 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{% block title %}Admin Panel{% endblock %}</title>
+
+    <link rel="stylesheet" href="{% static 'admissionapp/css/adminpanel/base.css' %}">
+    {% block extra_css %}{% endblock %}
+</head>
+
+<body>
+<div class="bg-blobs">
+    <div class="blob blob-1"></div>
+    <div class="blob blob-2"></div>
+    <div class="blob blob-3"></div>
+</div>
+
+{% block navbar %}
+<!-- NAVBAR -->
+<div class="navbar">
+    <div class="logo">
+        <img src="{% static 'admissionapp/images/logo.png' %}" alt="Logo">
+        <span>Admin Panel</span>
+    </div>
+
+    <div class="nav-links" id="navLinks">
+        <a href="{% url 'admin_home' %}">Home</a>
+        <a href="{% url 'admin_dashboard' %}">Dashboard</a>
+        <a href="{% url 'admin_students' %}">Students</a>
+        <a href="{% url 'admin_applications' %}">Applications</a>
+        <a href="{% url 'admin_payments' %}">Payments</a>
+        <a href="{% url 'admin_courses' %}">Courses</a>
+        <a href="{% url 'students_full_table' %}">All Students</a>
+        <a href="{% url 'admin_logout' %}" class="logout">Logout</a>    
+    </div>
+</div>
+{% endblock %}
+
+<!-- CONTENT -->
+<div class="main-container">
+    {% block content %}
+    {% endblock %}
+</div>
+
+<script>
+    // Highlight active link
+    document.addEventListener('DOMContentLoaded', function() {
+        const currentPath = window.location.pathname;
+        const navLinks = document.querySelectorAll('#navLinks a');
+        
+        navLinks.forEach(link => {
+            if (link.getAttribute('href') === currentPath) {
+                link.classList.add('active');
+            }
+        });
+    });
+</script>
+</body>
+</html>

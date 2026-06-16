@@ -1,0 +1,53 @@
+{% load static %}
+
+{% block extra_css %}
+    <link rel="stylesheet" href="{% static 'admissionapp/css/student_register.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="container" style="max-width: 500px; margin: 80px auto; padding: 40px; background: rgba(255, 255, 255, 0.05); filter: drop-shadow(0 8px 32px rgba(0,0,0,0.3)); border-radius: 20px; border: 1px solid rgba(255, 255, 255, 0.1); text-align: center; color: white;">
+    <h2 style="font-size: 2rem; font-weight: 800; margin-bottom: 15px;">Application Fee</h2>
+    <p style="color: #aaa; margin-bottom: 40px; font-size: 1.1rem;">Please pay the application fee of INR {{ amount }} to complete your final step.</p>
+    
+    <form action="{% url 'payment_success' %}" method="POST">
+        {% csrf_token %}
+        <!-- Hidden inputs if razorpay needs fallback but checkout.js handles it automagically -->
+        <input type="hidden" name="razorpay_order_id" id="order-id" value="{{ razorpay_order_id }}">
+        
+        <script
+            src="https://checkout.razorpay.com/v1/checkout.js"
+            data-key="{{ razorpay_merchant_key }}" 
+            data-amount="{{ amount|add:0|stringformat:'s'|add:'00' }}"
+            data-currency="INR"
+            data-order_id="{{ razorpay_order_id }}"
+            data-buttontext="Pay with Razorpay 🔒"
+            data-name="New Men College"
+            data-description="Application Processing Fee"
+            data-prefill.name="{{ student.first_name }} {{ student.last_name }}"
+            data-prefill.email="{{ student.email }}"
+            data-prefill.contact="{{ student.phone }}"
+            data-theme.color="#4facfe">
+        </script>
+    </form>
+    
+    <style>
+        /* Customizing the Razorpay default wrapper button */
+        .razorpay-payment-button {
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            font-size: 1.2rem;
+            font-weight: bold;
+            border-radius: 12px;
+            cursor: pointer;
+            box-shadow: 0 5px 15px rgba(0, 242, 254, 0.3);
+            transition: all 0.3s ease;
+        }
+        .razorpay-payment-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(0, 242, 254, 0.4);
+        }
+    </style>
+</div>
+{% endblock %}

@@ -1,0 +1,76 @@
+{% extends 'admissionapp/base.html' %}
+{% load static %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'admissionapp/css/register.css' %}">
+{% endblock %}
+
+{% block content %}
+
+<div class="container">
+
+    <div class="header">
+        <h1>Course Application</h1>
+        <p>Select your preferred courses</p>
+    </div>
+
+    {% if error %}
+    <div class="error-box">
+        {{ error }}
+    </div>
+    {% endif %}
+
+    <!-- ✔ correct action -->
+   <form method="post" action="{% url 'apply' %}">
+    {% csrf_token %}
+
+        <div class="form-grid">
+
+            <div class="input-group full-width">
+                <label>Student Name</label>
+                <input type="text" value="{{ request.session.user_name }}" disabled>
+            </div>
+
+            <!-- Primary Course -->
+            <div class="input-groups">
+                <label>Primary Course</label>
+
+                <select name="primary_course" required>
+                    <option value="">Select Primary Course</option>
+
+                    {% for c in courses %}
+                        <option value="{{ c.course_id }}">
+                            {{ c.course_name }}
+                        </option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <!-- Second Course -->
+            <div class="input-groups">
+                <label>Second Course (Optional)</label>
+
+                <select name="second_course">
+                    <option value="">Select</option>
+
+                    {% for c in courses %}
+                        <option value="{{ c.course_id }}">
+                            {{ c.course_name }}
+                        </option>
+                    {% endfor %}
+
+                </select>
+            </div>
+
+
+            <button type="submit" class="submit-btn">
+                Submit Application
+            </button>
+
+        </div>
+
+    </form>
+
+</div>
+
+{% endblock %}

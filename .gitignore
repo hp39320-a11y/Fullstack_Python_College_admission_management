@@ -1,0 +1,20 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Django SQLite database (if any)
+admissionproject/db.sqlite3
+
+# Virtual environment
+environment/
+.venv/
+venv/
+ENV/
+
+# Environment variables / Credentials
+.env
+
+# Media files (User uploads)
+admissionproject/media/

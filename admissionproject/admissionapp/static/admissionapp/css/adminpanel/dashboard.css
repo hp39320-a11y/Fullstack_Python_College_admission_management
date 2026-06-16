@@ -1,0 +1,296 @@
+/* =========================
+   GLOBAL WRAPPER
+========================= */
+
+.dashboard-wrapper {
+    padding: 24px;
+    min-height: 100vh;
+    background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+    color: #ffffff;
+    overflow: hidden;
+    animation: fadeIn 0.7s ease;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(15px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+
+/* =========================
+   HEADER SECTION
+========================= */
+
+.dashboard-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 20px;
+    flex-wrap: wrap;
+    margin-bottom: 24px;
+    padding-bottom: 18px;
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+}
+
+/* LEFT CONTENT */
+
+.header-content h1 {
+    font-size: 2.4rem;
+    font-weight: 800;
+    margin-bottom: 8px;
+    letter-spacing: -1px;
+
+    background: linear-gradient(
+        135deg,
+        #8b5cf6 0%,
+        #6366f1 50%,
+        #3b82f6 100%
+    );
+
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.header-content p {
+    color: #94a3b8;
+    font-size: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-weight: 500;
+}
+
+.header-content p::before {
+    content: '';
+    width: 10px;
+    height: 10px;
+    background: #10b981;
+    border-radius: 50%;
+    box-shadow: 0 0 12px #10b981;
+}
+
+
+/* =========================
+   ACTION BUTTONS
+========================= */
+
+.dashboard-actions {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    flex-wrap: wrap;
+}
+
+.action-btn {
+    padding: 11px 20px;
+    border-radius: 14px;
+    border: 1px solid rgba(255,255,255,0.08);
+
+    background: rgba(255,255,255,0.05);
+
+    color: #ffffff;
+    text-decoration: none;
+    font-size: 0.95rem;
+    font-weight: 600;
+
+    display: flex;
+    align-items: center;
+    gap: 8px;
+
+    cursor: pointer;
+
+    transition: all 0.3s ease;
+    backdrop-filter: blur(10px);
+}
+
+.action-btn:hover {
+    transform: translateY(-2px);
+
+    background: linear-gradient(
+        135deg,
+        #4f46e5,
+        #6366f1
+    );
+
+    border-color: transparent;
+
+    box-shadow:
+        0 10px 25px rgba(99,102,241,0.35);
+}
+
+.action-btn i {
+    font-size: 0.9rem;
+}
+
+
+/* =========================
+   POWER BI CONTAINER
+========================= */
+
+.powerbi-container {
+    position: relative;
+
+    width: 100%;
+    height: 92vh;
+
+    overflow: hidden;
+
+    border-radius: 24px;
+
+    background: #0f172a;
+
+    border: 1px solid rgba(255,255,255,0.05);
+
+    box-shadow:
+        0 10px 40px rgba(0,0,0,0.45),
+        0 0 30px rgba(99,102,241,0.12);
+
+    transition: all 0.4s ease;
+}
+
+.powerbi-container:hover {
+
+    box-shadow:
+        0 20px 55px rgba(0,0,0,0.6),
+        0 0 40px rgba(99,102,241,0.18);
+}
+
+
+/* =========================
+   IFRAME
+========================= */
+
+.powerbi-container iframe {
+    width: 100%;
+    height: 100%;
+
+    border: none;
+
+    border-radius: 24px;
+
+    background: #ffffff;
+}
+
+
+/* =========================
+   REMOVE WHITE FOOTER
+========================= */
+
+.powerbi-container::before {
+    content: "";
+
+    position: absolute;
+
+    left: 0;
+    bottom: 0;
+
+    width: 100%;
+    height: 52px;
+
+    background: #0f172a;
+
+    z-index: 10;
+}
+
+
+/* =========================
+   OPTIONAL DARK OVERLAY
+========================= */
+
+.powerbi-container::after {
+    content: "";
+
+    position: absolute;
+
+    inset: 0;
+
+    border-radius: 24px;
+
+    pointer-events: none;
+
+    box-shadow:
+        inset 0 0 100px rgba(0,0,0,0.12);
+}
+
+
+/* =========================
+   SCROLLBAR
+========================= */
+
+::-webkit-scrollbar {
+    width: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: #0f172a;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #334155;
+    border-radius: 20px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #475569;
+}
+
+
+/* =========================
+   RESPONSIVE
+========================= */
+
+@media (max-width: 1024px) {
+
+    .dashboard-wrapper {
+        padding: 18px;
+    }
+
+    .header-content h1 {
+        font-size: 2rem;
+    }
+
+    .powerbi-container {
+        height: 82vh;
+    }
+}
+
+@media (max-width: 768px) {
+
+    .dashboard-header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .dashboard-actions {
+        width: 100%;
+    }
+
+    .action-btn {
+        width: 100%;
+        justify-content: center;
+    }
+
+    .header-content h1 {
+        font-size: 1.7rem;
+    }
+
+    .header-content p {
+        font-size: 0.95rem;
+    }
+
+    .powerbi-container {
+        height: 74vh;
+        border-radius: 18px;
+    }
+
+    .powerbi-container iframe {
+        border-radius: 18px;
+    }
+}

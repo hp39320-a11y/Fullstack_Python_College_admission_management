@@ -1,0 +1,45 @@
+{% extends 'admissionapp/base.html' %}
+{% load static %}
+
+{% block title %}Courses | College Admission{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'admissionapp/css/courses.css' %}">
+{% endblock %}
+
+{% block content %}
+
+<div class="container">
+
+    <div class="header">
+        <h1>Our Courses</h1>
+        <p>Select a course and apply easily</p>
+    </div>
+
+    <div class="courses-grid">
+
+        {% for course in courses %}
+        <div class="course-card">
+
+            <h2>{{ course.course_name }}</h2>
+            <h2>Total Seats: 50</h2>
+
+            <div class="course-footer">
+                <span class="duration">
+                    Duration: {{ course.duration|default:"N/A" }}
+                </span>
+
+            </div>
+
+        </div>
+        {% empty %}
+
+        <p class="empty">No courses available</p>
+
+        {% endfor %}
+
+    </div>
+
+</div>
+
+{% endblock %}

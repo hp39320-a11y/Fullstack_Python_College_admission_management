@@ -1,0 +1,161 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="New Men College - Modern Admission Portal for future leaders. Apply now for premium courses.">
+    
+    <title>{% block title %}New Men College | Premium Education{% endblock %}</title>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <!-- Base CSS -->
+    <link rel="stylesheet" href="{% static 'admissionapp/css/base.css' %}">
+
+    {% block extra_css %}{% endblock %}
+</head>
+
+<body>
+
+<!-- NAVBAR -->
+<nav class="navbar">
+    <div class="logo">
+        <a href="{% url 'home' %}">
+            <img src="{% static 'admissionapp/images/logo.png' %}" alt="NMC Logo">
+            <span>New Men College</span>
+        </a>
+    </div>
+
+    <ul class="nav-links">
+        <li><a href="{% url 'home' %}">Home</a></li>
+        <li><a href="{% url 'course_list' %}">Courses</a></li>
+        
+        {% if request.session.user_id %}
+            <li><a href="{% url 'dashboard' %}">Dashboard</a></li>
+            <li><a href="{% url 'student_register' %}">Application</a></li>
+            <li><a href="{% url 'logout' %}">Logout</a></li>
+        {% else %}
+            <li class="dropdown">
+                <a href="#" class="dropdown-trigger">Login ▾</a>
+                <ul class="dropdown-menu">
+                    <li><a href="{% url 'login' %}">Student Login</a></li>
+                    <li><a href="{% url 'admin_login' %}">Staff Login</a></li>
+                </ul>
+            </li>
+        {% endif %}
+    </ul>
+
+    <div class="nav-right">
+        {% if not request.session.user_id %}
+            <a href="{% url 'register' %}" class="nav-btn">Apply Now</a>
+        {% else %}
+            <span class="user-greeting">
+                Hello, {{ request.session.user_name }}
+            </span>
+        {% endif %}
+        <button class="mobile-toggle" id="menuToggle">☰</button>
+    </div>
+</nav>
+
+<!-- BACKGROUND BLOBS -->
+<div class="bg-blobs">
+    <div class="blob blob-1"></div>
+    <div class="blob blob-2"></div>
+</div>
+
+<!-- CONTENT -->
+<main>
+    {% block content %}{% endblock %}
+</main>
+
+<!-- FOOTER -->
+<footer>
+    <div class="footer-content">
+        <div class="footer-grid" style="display: grid; grid-template-columns: 2fr 1fr 1.5fr; gap: 40px; text-align: left; width: 100%; max-width: 1200px;">
+            <div class="footer-about">
+                <div class="footer-logo" style="margin-bottom: 20px; justify-content: flex-start;">
+                    <img src="{% static 'admissionapp/images/logo.png' %}" alt="Logo" height="40">
+                    <h3 style="margin: 0; font-size: 1.5rem; font-weight: 800;">New Men College</h3>
+                </div>
+                <p style="color: var(--text-muted); line-height: 1.6;">Providing world-class education for the builders of tomorrow. Join our community and excel in your field with industry-ready skills.</p>
+            </div>
+            
+            <div class="footer-links">
+                <h4 style="color: #fff; margin-bottom: 20px; font-weight: 700;">Quick Links</h4>
+                <ul style="list-style: none; padding: 0; display: flex; flex-direction: column; gap: 10px;">
+                    <li><a href="{% url 'home' %}" style="color: var(--text-muted); text-decoration: none; font-size: 0.95rem; transition: 0.3s;">Home</a></li>
+                    <li><a href="{% url 'course_list' %}" style="color: var(--text-muted); text-decoration: none; font-size: 0.95rem; transition: 0.3s;">Courses</a></li>
+                    <li><a href="{% url 'login' %}" style="color: var(--text-muted); text-decoration: none; font-size: 0.95rem; transition: 0.3s;">Student Login</a></li>
+                    <li><a href="{% url 'admin_login' %}" style="color: var(--text-muted); text-decoration: none; font-size: 0.95rem; transition: 0.3s;">Staff Login</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-contact">
+                <h4 style="color: #fff; margin-bottom: 20px; font-weight: 700;">Contact Us</h4>
+                <div style="display: flex; flex-direction: column; gap: 12px; color: var(--text-muted); font-size: 0.95rem;">
+                    <p>📍 123 Education Square, Academic City, Kerala 456789</p>
+                    <p>📞 Admission: +91 98765 43210</p>
+                    <p>✉️ info@newmencollege.edu.in</p>
+                    <p>🌐 www.newmencollege.edu.in</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="footer-bottom">
+            <p>&copy; 2026 New Men College Admission Portal. All rights reserved.</p>
+        </div>
+    </div>
+</footer>
+
+<!-- SCRIPTS -->
+<script>
+    // Reveal animation on scroll
+    document.addEventListener('DOMContentLoaded', () => {
+        const observerOptions = {
+            threshold: 0.1
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('reveal');
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('section, .card, .container').forEach(el => {
+            observer.observe(el);
+        });
+
+        // Mobile Menu Toggle
+        const menuToggle = document.getElementById('menuToggle');
+        const navLinks = document.querySelector('.nav-links');
+        
+        if(menuToggle) {
+            menuToggle.addEventListener('click', () => {
+                navLinks.classList.toggle('active');
+                menuToggle.innerHTML = navLinks.classList.contains('active') ? '✕' : '☰';
+            });
+        }
+
+        // Mobile Dropdown Toggle
+        const dropdownTrigger = document.querySelector('.dropdown-trigger');
+        const dropdown = document.querySelector('.dropdown');
+        if(dropdownTrigger && window.innerWidth <= 1024) {
+            dropdownTrigger.addEventListener('click', (e) => {
+                e.preventDefault();
+                dropdown.classList.toggle('active');
+            });
+        }
+    });
+</script>
+
+{% block extra_js %}{% endblock %}
+
+</body>
+</html>

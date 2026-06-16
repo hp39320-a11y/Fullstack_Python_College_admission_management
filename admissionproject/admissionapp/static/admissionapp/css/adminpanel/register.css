@@ -1,0 +1,99 @@
+/* Container */
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+/* Card */
+.card {
+    background: rgba(255, 255, 255, 0.04);
+    backdrop-filter: blur(12px);
+    padding: 40px;
+    width: 100%;
+    max-width: 400px;
+    border-radius: 20px;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+}
+
+/* Title */
+.title {
+    text-align: center;
+    margin-bottom: 30px;
+    color: #f8fafc;
+    font-size: 2rem;
+    font-weight: 700;
+}
+
+/* Form */
+.form {
+    display: flex;
+    flex-direction: column;
+}
+
+/* Inputs */
+.form input {
+    padding: 12px 15px;
+    margin-bottom: 18px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
+    background: rgba(255, 255, 255, 0.05);
+    color: #fff;
+    font-size: 1rem;
+    outline: none;
+    transition: 0.3s;
+}
+
+.form input:focus {
+    border-color: #6366f1;
+    background: rgba(255, 255, 255, 0.08);
+}
+
+/* Button */
+.form button {
+    padding: 12px;
+    background: linear-gradient(135deg, #10b981, #059669);
+    color: white;
+    border: none;
+    border-radius: 10px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.form button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(16, 185, 129, 0.4);
+}
+
+/* Error */
+.error {
+    color: #ef4444;
+    text-align: center;
+    margin-top: 15px;
+    font-size: 0.9rem;
+    background: rgba(239, 68, 68, 0.1);
+    padding: 8px;
+    border-radius: 8px;
+}
+
+/* Login text */
+.login {
+    text-align: center;
+    margin-top: 20px;
+    font-size: 0.9rem;
+    color: #94a3b8;
+}
+
+.login a {
+    color: #6366f1;
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.login a:hover {
+    text-decoration: underline;
+}

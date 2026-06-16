@@ -1,0 +1,129 @@
+/* STEP INDICATOR */
+.step-indicator {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 3rem;
+    gap: 10px;
+}
+
+.step-dot {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid var(--glass-border);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    color: var(--text-muted);
+    transition: 0.4s;
+    position: relative;
+    z-index: 2;
+}
+
+.step-dot.active {
+    background: var(--primary);
+    color: #fff;
+    border-color: var(--primary);
+    box-shadow: 0 0 20px rgba(99, 102, 241, 0.4);
+}
+
+.step-line {
+    width: 40px;
+    height: 2px;
+    background: var(--glass-border);
+}
+
+.step-title {
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: #fff;
+    margin-bottom: 2rem;
+    padding-left: 5px;
+    border-left: 4px solid var(--primary);
+}
+
+/* BUTTONS */
+.btn-row {
+    margin-top: 2rem;
+}
+
+.next-btn {
+    width: 100%;
+}
+
+textarea {
+    resize: none;
+    font-family: inherit;
+}
+
+/* Specific select padding fix */
+select {
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 1rem center;
+    background-size: 1.2rem;
+}
+/* INPUT GROUP */
+.input-groups {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 20px;
+}
+
+/* LABEL */
+.input-groups label {
+    font-size: 0.9rem;
+    color: var(--text-muted);
+    margin-bottom: 6px;
+    font-weight: 500;
+}
+
+/* SELECT BOX */
+.input-groups select {
+    padding: 12px 14px;
+    border-radius: 12px;
+    border: 1px solid var(--glass-border);
+    background: rgba(255, 255, 255, 0.04);
+    color: var(--text-main);
+    font-size: 0.95rem;
+    outline: none;
+    transition: all 0.3s ease;
+    appearance: none; /* remove default arrow */
+    cursor: pointer;
+}
+
+/* HOVER EFFECT */
+.input-groups select:hover {
+    border-color: var(--primary);
+}
+
+/* FOCUS EFFECT */
+.input-groups   select:focus {
+    border-color: var(--primary);
+    box-shadow: 0 0 0 2px rgba(99, 102, 241, 0.2);
+}
+
+/* OPTION STYLE (limited support) */
+.input-groups select option {
+    background: #0f172a;
+    color: #fff;
+}
+
+/* CUSTOM ARROW */
+.input-groups     {
+    position: relative;
+}
+
+.input-groups::after {
+    content: "▼";
+    position: absolute;
+    right: 15px;
+    top: 38px;
+    font-size: 0.7rem;
+    color: var(--text-muted);
+    pointer-events: none;
+}

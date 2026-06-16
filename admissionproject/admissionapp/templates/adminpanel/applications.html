@@ -1,0 +1,76 @@
+{% extends "adminpanel/base.html" %}
+{% load static %}
+
+{% block title %}Applications{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'admissionapp/css/adminpanel/application.css' %}">
+{% endblock %}
+{% block content %}
+
+<div class="container">
+
+    <div class="header">
+        <h2 class="title">Applications</h2>
+
+        <!-- ✅ Back Button -->
+        <a class="btn-back" href="{% url 'admin_home' %}">
+            ← Back
+        </a>
+    </div>
+
+    <div class="table-wrapper">
+        <table class="app-table">
+
+            <thead>
+                <tr>
+                    <th>Student</th>
+                    <th>Course</th>
+                    <th>Status</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                {% for a in applications %}
+                <tr>
+                    <td>{{ a.student.first_name }}</td>
+                    <td>{{ a.course.course_name }}</td>
+                    <td>
+                        <span class="status {{ a.application_status|lower }}">
+                            {{ a.application_status }}
+                        </span>
+                    </td>
+                    <td>
+                      <button class="btn-update"
+    onclick="openModal('{{ a.application_id }}',
+                       '{{ a.student.first_name }}',
+                       '{{ a.course.course_name }}',
+                       '{{ a.application_status }}')">
+    Update
+</button>
+                    </td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="4">No applications found</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+
+        </table>
+    </div>
+
+    <style>
+        .btn-update {
+            border: none;
+            cursor: pointer;
+            font-family: inherit;
+        }
+    </style>
+
+</div>
+
+{% include 'adminpanel/update_application.html' %}
+
+{% endblock %}

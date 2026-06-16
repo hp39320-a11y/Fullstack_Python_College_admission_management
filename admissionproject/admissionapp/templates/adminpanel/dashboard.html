@@ -1,0 +1,499 @@
+{% extends "adminpanel/base.html" %}
+{% load static %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'admissionapp/css/adminpanel/home.css' %}">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
+<style>
+
+.modal{
+
+    display:none;
+    position:fixed;
+    z-index:9999;
+    left:0;
+    top:0;
+    width:100%;
+    height:100%;
+
+    background:rgba(15,23,42,.75);
+
+    justify-content:center;
+    align-items:center;
+
+    backdrop-filter:blur(4px);
+}
+
+.modal-content{
+    width: 420px;
+    background: rgba(15, 23, 42, 0.95);
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 24px;
+    padding: 32px;
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+    animation: popup 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+@keyframes popup{
+    from{
+        transform: translateY(20px) scale(0.95);
+        opacity: 0;
+    }
+    to{
+        transform: translateY(0) scale(1);
+        opacity: 1;
+    }
+}
+
+.modal-header{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 24px;
+}
+
+.modal-header h2{
+    margin: 0;
+    font-size: 1.5rem;
+    font-weight: 800;
+    color: #fff;
+}
+
+.close-btn{
+    font-size: 28px;
+    cursor: pointer;
+    color: #94a3b8;
+    transition: 0.2s;
+}
+
+.close-btn:hover{
+    color: #fff;
+    transform: rotate(90deg);
+}
+
+.student-info{
+    background: rgba(255, 255, 255, 0.05);
+    padding: 20px;
+    border-radius: 16px;
+    margin-bottom: 24px;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.student-info p{
+    margin: 8px 0;
+    color: #94a3b8;
+    font-size: 0.95rem;
+}
+
+.student-info strong{
+    color: #fff;
+    margin-right: 8px;
+}
+
+.form-label{
+    display: block;
+    margin-bottom: 12px;
+    font-weight: 600;
+    color: #cbd5e1;
+    font-size: 0.9rem;
+}
+
+#statusSelect{
+    width: 100%;
+    padding: 14px;
+    border-radius: 12px;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: #fff;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+#statusSelect:focus{
+    outline: none;
+    border-color: #6366f1;
+    background: rgba(255, 255, 255, 0.08);
+}
+
+#statusSelect option{
+    background: #1e293b;
+    color: #fff;
+}
+
+.save-btn{
+    width: 100%;
+    margin-top: 24px;
+    padding: 16px;
+    border: none;
+    border-radius: 14px;
+    background: linear-gradient(135deg, #4f46e5, #6366f1);
+    color: #fff;
+    font-size: 1rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: 0.3s;
+    box-shadow: 0 10px 20px rgba(79, 70, 229, 0.2);
+}
+
+.save-btn:hover{
+    transform: translateY(-2px);
+    box-shadow: 0 15px 25px rgba(79, 70, 229, 0.3);
+}
+
+.btn-icon {
+    background: none;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+    font-size: 1.1rem;
+    color: #94a3b8;
+    transition: 0.2s;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.btn-icon:hover {
+    color: #6366f1;
+    transform: scale(1.1);
+}
+
+</style>
+
+{% endblock %}
+
+{% block content %}
+
+<div class="dashboard-header">
+    <h1>Welcome, {{ request.session.admin_name }}</h1>
+    <p>Overview of the admission process</p>
+</div>
+
+<div class="stats-grid">
+
+    <div class="stat-card">
+        <div class="stat-icon students">
+            <i class="fas fa-user-graduate"></i>
+        </div>
+
+        <div class="stat-info">
+            <h3>{{ total_students }}</h3>
+            <p>Total Students</p>
+        </div>
+    </div>
+
+    <div class="stat-card">
+        <div class="stat-icon applications">
+            <i class="fas fa-file-invoice"></i>
+        </div>
+
+        <div class="stat-info">
+            <h3>{{ total_applications }}</h3>
+            <p>Total Applications</p>
+        </div>
+    </div>
+
+    <div class="stat-card">
+        <div class="stat-icon pending">
+            <i class="fas fa-clock"></i>
+        </div>
+
+        <div class="stat-info">
+            <h3>{{ pending_applications }}</h3>
+            <p>Pending Review</p>
+        </div>
+    </div>
+
+    <div class="stat-card">
+        <div class="stat-icon revenue">
+            <i class="fas fa-indian-rupee-sign"></i>
+        </div>
+
+        <div class="stat-info">
+            <h3>₹{{ total_revenue }}</h3>
+            <p>Total Revenue</p>
+        </div>
+    </div>
+
+</div>
+
+<!-- QUICK ACTIONS -->
+
+<div class="actions">
+
+    <a href="{% url 'admin_students' %}" class="action-btn">
+        <div class="btn-emoji">
+            <i class="fas fa-users"></i>
+        </div>
+
+        <span>View Students</span>
+    </a>
+
+    <a href="{% url 'admin_courses' %}" class="action-btn">
+        <div class="btn-emoji">
+            <i class="fas fa-book"></i>
+        </div>
+
+        <span>Manage Courses</span>
+    </a>
+
+    <a href="{% url 'admin_applications' %}" class="action-btn">
+        <div class="btn-emoji">
+            <i class="fas fa-file-alt"></i>
+        </div>
+
+        <span>Applications</span>
+    </a>
+
+    <a href="{% url 'admin_payments' %}" class="action-btn">
+        <div class="btn-emoji">
+            <i class="fas fa-credit-card"></i>
+        </div>
+
+        <span>Payments</span>
+    </a>
+
+</div>
+
+<div class="dashboard-main">
+
+    <div class="recent-section">
+
+        <div class="section-header">
+
+            <h2>Recent Applications</h2>
+
+            <a href="{% url 'admin_applications' %}" class="view-all">
+
+                View All
+
+            </a>
+
+        </div>
+
+        <div class="table-container">
+
+            <table>
+
+                <thead>
+
+                    <tr>
+
+                        <th>Student</th>
+                        <th>Course</th>
+                        <th>Date</th>
+                        <th>Status</th>
+                        <th>Action</th>
+
+                    </tr>
+
+                </thead>
+
+                <tbody>
+
+                    {% for app in recent_applications %}
+
+                    <tr>
+
+                        <td>
+                            {{ app.student.first_name }} {{ app.student.last_name }}
+                        </td>
+
+                        <td>
+                            {{ app.course.course_name }}
+                        </td>
+
+                        <td>
+                            {{ app.submission_date|date:"d M, Y" }}
+                        </td>
+
+                        <td>
+
+                            <span class="status-badge {{ app.application_status|lower }}">
+
+                                {{ app.application_status }}
+
+                            </span>
+
+                        </td>
+
+                        <td>
+
+                            <button
+                                class="btn-icon"
+
+                                onclick="openModal(
+                                    '{{ app.application_id }}',
+                                    '{{ app.application_status }}',
+                                    '{{ app.student.first_name }} {{ app.student.last_name }}',
+                                    '{{ app.course.course_name }}'
+                                )">
+
+                                <i class="fas fa-edit"></i>
+
+                            </button>
+
+                        </td>
+
+                    </tr>
+
+                    {% empty %}
+
+                    <tr>
+
+                        <td colspan="5" class="no-data">
+
+                            No recent applications found
+
+                        </td>
+
+                    </tr>
+
+                    {% endfor %}
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+    <div class="analytics-section">
+
+        <div class="section-header">
+
+            <h2>Analytics Overview</h2>
+
+        </div>
+
+        <div class="iframe-container">
+
+            <iframe
+                title="Power BI Dashboard"
+
+                src="https://app.powerbi.com/view?r=eyJrIjoiMDU1NmY1NzQtZjEzOS00YWY2LWE2MDQtNGE2Zjg0ZjhmZDk0IiwidCI6IjIwNGEzM2FmLThmZWYtNDMyMi1hOTRkLTlhZDYyNjYwMjQ4MCJ9"
+
+                frameborder="0"
+
+                allowFullScreen="true">
+
+            </iframe>
+
+        </div>
+
+    </div>
+
+</div>
+
+<!-- MODAL -->
+
+<div id="statusModal" class="modal">
+
+    <div class="modal-content">
+
+        <div class="modal-header">
+
+            <h2>Update Application</h2>
+
+            <span class="close-btn" onclick="closeModal()">
+
+                &times;
+
+            </span>
+
+        </div>
+
+        <div class="student-info">
+
+            <p>
+
+                <strong>Student:</strong>
+
+                <span id="studentName"></span>
+
+            </p>
+
+            <p>
+
+                <strong>Course:</strong>
+
+                <span id="courseName"></span>
+
+            </p>
+
+        </div>
+
+        <form id="statusForm" method="POST">
+
+            {% csrf_token %}
+
+            <label class="form-label">
+
+                Application Status
+
+            </label>
+
+            <select name="status" id="statusSelect">
+
+                <option value="Pending">Pending</option>
+
+                <option value="Approved">Approved</option>
+
+                <option value="Rejected">Rejected</option>
+
+            </select>
+
+            <button type="submit" class="save-btn">
+
+                Update Status
+
+            </button>
+
+        </form>
+
+    </div>
+
+</div>
+
+<script>
+
+function openModal(appId, status, student, course){
+
+    document.getElementById("statusModal").style.display = "flex";
+
+    document.getElementById("statusSelect").value = status;
+
+    document.getElementById("studentName").innerText = student;
+
+    document.getElementById("courseName").innerText = course;
+
+    document.getElementById("statusForm").action =
+        "/admin-panel/applications/update/" + appId + "/";
+
+}
+
+function closeModal(){
+
+    document.getElementById("statusModal").style.display = "none";
+
+}
+
+window.onclick = function(event){
+
+    const modal = document.getElementById("statusModal");
+
+    if(event.target == modal){
+
+        closeModal();
+
+    }
+
+}
+
+</script>
+
+{% endblock %}

@@ -1,0 +1,72 @@
+{% extends "adminpanel/base.html" %}
+{% load static %}
+
+{% block title %}Students{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'admissionapp/css/adminpanel/student.css' %}">
+{% endblock %}
+
+{% block content %}
+
+<h2 class="title">Students List</h2>
+
+<div class="table-container">
+
+    <table class="students-table">
+
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Phone</th>
+                <th style="text-align:center;">Actions</th>
+            </tr>
+        </thead>
+
+        <tbody>
+
+            {% for s in students %}
+            <tr>
+                <td>{{ s.student_id }}</td>
+                <td>{{ s.first_name }} {{ s.last_name }}</td>
+                <td>{{ s.email }}</td>
+                <td>{{ s.phone }}</td>
+
+                <td style="text-align:center;">
+
+                    <!-- VIEW -->
+                    <a class="btn-view"
+                       href="{% url 'admin_student_detail' s.student_id %}">
+                        View
+                    </a>
+
+                    <!-- DELETE (SAFE METHOD) -->
+                    <form action="{% url 'delete_student' s.student_id %}"
+                          method="post"
+                          style="display:inline;">
+                        {% csrf_token %}
+                        <button type="submit"
+                                class="btn-delete"
+                                onclick="return confirm('Delete this student?');">
+                            Delete
+                        </button>
+                    </form>
+
+                </td>
+            </tr>
+
+            {% empty %}
+            <tr>
+                <td colspan="5">No students found</td>
+            </tr>
+            {% endfor %}
+
+        </tbody>
+
+    </table>
+
+</div>
+
+{% endblock %}

@@ -1,0 +1,19 @@
+{% extends 'admissionapp/base.html' %}
+{% load static %}
+
+{% block title %}Payment Success | New Men College{% endblock %}
+
+{% block content %}
+<div class="form-container" style="max-width: 550px; margin: 6rem auto; padding: 4rem; background: var(--card-bg); backdrop-filter: blur(20px); border: 1px solid var(--glass-border); border-radius: 32px; text-align: center;">
+    <div style="font-size: 5rem; margin-bottom: 1.5rem;">🎉</div>
+    <h2 style="font-size: 2.2rem; font-weight: 800; color: #10b981; margin-bottom: 1rem;">Payment Successful!</h2>
+    <p style="color: var(--text-muted); font-size: 1.1rem; margin-bottom: 2.5rem; line-height: 1.6;">
+        Your application fee has been processed successfully. Your admission status is now <strong>Pending Review</strong>.
+    </p>
+    
+    <div style="display: flex; flex-direction: column; gap: 15px;">
+        <a href="{% url 'dashboard' %}" class="btn-primary">View My Dashboard</a>
+        <a href="{% url 'home' %}" style="color: var(--text-muted); text-decoration: none; font-size: 0.9rem; font-weight: 600;">Back to Homepage</a>
+    </div>
+</div>
+{% endblock %}

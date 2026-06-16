@@ -1,0 +1,36 @@
+{% extends "adminpanel/base.html" %}
+{% load static %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'admissionapp/css/adminpanel/dashboard.css' %}">
+{% endblock %}
+
+{% block content %}
+
+<div class="dashboard-wrapper">
+
+    <div class="dashboard-header">
+        <div class="header-content">
+            <h1>📊 Analytical Dashboard</h1>
+            <p>Live Power BI Insights</p>
+        </div>
+        <div class="dashboard-actions">
+            <a href="{% url 'admin_dashboard' %}" class="action-btn">
+                <i class="fas fa-home"></i> Back to Home
+            </a>
+            <button class="action-btn" onclick="window.location.reload()">
+                <i class="fas fa-sync-alt"></i> Refresh Data
+            </button>
+        </div>
+    </div>
+
+    <div class="powerbi-container">
+        <iframe title="Power BI Dashboard"
+            src="https://app.powerbi.com/view?r=eyJrIjoiMDU1NmY1NzQtZjEzOS00YWY2LWE2MDQtNGE2Zjg0ZjhmZDk0IiwidCI6IjIwNGEzM2FmLThmZWYtNDMyMi1hOTRkLTlhZDYyNjYwMjQ4MCJ9"
+            allowFullScreen="true">
+        </iframe>
+    </div>
+
+</div>
+
+{% endblock %}

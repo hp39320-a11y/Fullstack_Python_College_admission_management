@@ -1,0 +1,62 @@
+{% extends "adminpanel/base.html" %}
+{% load static %}
+
+{% block title %}Courses{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'admissionapp/css/adminpanel/course.css' %}">
+{% endblock %}
+{% block content %}
+
+<div class="container">
+
+    <div class="header">
+        <h2 class="title">Courses</h2>
+
+        <!-- ✅ Back Button -->
+        <a class="btn-back" href="{% url 'admin_home' %}">
+            ← Back
+        </a>
+    </div>
+
+    <div class="top-bar">
+        <a class="btn-add" href="{% url 'add_course' %}">➕ Add Course</a>
+    </div>
+
+    <div class="table-wrapper">
+        <table class="course-table">
+
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Duration</th>
+                    <th>Seats</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                {% for c in courses %}
+                <tr>
+                    <td>{{ c.course_name }}</td>
+                    <td>{{ c.duration }}</td>
+                    <td>{{ c.total_seats }}</td>
+                    <td>
+                        <a class="btn-delete" href="{% url 'delete_course' c.course_id %}">
+                            Delete
+                        </a>
+                    </td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="4">No courses available</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+
+        </table>
+    </div>
+
+</div>
+
+{% endblock %}

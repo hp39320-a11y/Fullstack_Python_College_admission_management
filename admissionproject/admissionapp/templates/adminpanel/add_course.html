@@ -1,0 +1,41 @@
+{% extends "adminpanel/base.html" %}
+{% load static %}
+
+{% block title %}Add Course{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'admissionapp/css/adminpanel/add_course.css' %}">
+{% endblock %}
+{% block content %}
+
+<div class="container">
+
+    <div class="card">
+
+        <div class="header">
+            <h2 class="title">Add Course</h2>
+
+            <!-- ✅ Back Button -->
+            <a class="btn-back" href="{% url 'admin_courses' %}">
+                ← Back
+            </a>
+        </div>
+
+        <form method="post" class="form">
+            {% csrf_token %}
+
+            <input type="text" name="course_name" placeholder="Course Name" required>
+
+            <input type="text" name="duration" placeholder="Duration (e.g. 6 Months)" required>
+
+            <input type="number" name="total_seats" placeholder="Total Seats" required>
+
+            <button type="submit">Add Course</button>
+
+        </form>
+
+    </div>
+
+</div>
+
+{% endblock %}
