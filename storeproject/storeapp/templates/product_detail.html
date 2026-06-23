@@ -1,0 +1,97 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/product_detail.css' %}">
+{% endblock %}
+
+{% block title %}{{ product.name }} | Product Detail{% endblock %}
+
+{% block content %}
+
+<div class="product-detail-container">
+
+    <!-- IMAGE -->
+    <div class="product-images">
+
+        <!-- ❤️ Wishlist -->
+        <button class="wishlist-icon" data-id="{{ product.id }}">
+            ❤️
+        </button>
+
+        {% if product.image %}
+            <img src="{{ product.image.url }}" alt="{{ product.name }}">
+        {% else %}
+            <img src="https://via.placeholder.com/400x400">
+        {% endif %}
+
+    </div>
+
+    <!-- INFO -->
+    <div class="product-info">
+
+        <h2 class="product-title">{{ product.name }}</h2>
+
+        <p class="product-price">₹{{ product.price }}</p>
+
+        <p class="product-stock">
+            {% if product.stock > 0 %}
+                ✔ In Stock
+            {% else %}
+                ❌ Out of Stock
+            {% endif %}
+        </p>
+
+        {% if product.description %}
+        <p class="product-description">
+            {{ product.description }}
+        </p>
+        {% endif %}
+
+        <!-- SIZE -->
+        {% if product_sizes %}
+        <div class="size-section">
+            <p class="size-title">Select Size</p>
+
+            <div class="size-options">
+                {% for size in product_sizes %}
+                <button type="button"
+                        class="size-btn"
+                        onclick="selectSize(this)"
+                        data-size="{{ size }}">
+                    {{ size }}
+                </button>
+                {% endfor %}
+            </div>
+        </div>
+        {% endif %}
+
+        <!-- QUANTITY -->
+        <label>Quantity</label>
+        <input type="number" name="quantity" form="buyForm"
+               value="1" min="1" max="{{ product.stock }}">
+
+        <!-- BUTTONS -->
+        <div class="product-buttons">
+
+            <!-- BUY NOW -->
+            <form id="buyForm" method="POST" action="{% url 'buy_now' product.id %}">
+                {% csrf_token %}
+                <input type="hidden" name="size" id="selected-size">
+                <button type="submit" class="buy-now-btn">
+                    Buy Now
+                </button>
+            </form>
+
+            <!-- ADD TO CART -->
+            <button class="add-to-cart-btn" data-id="{{ product.id }}">
+                Add to Cart
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

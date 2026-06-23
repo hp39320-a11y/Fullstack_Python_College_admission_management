@@ -1,0 +1,50 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Order Successful</title>
+
+    <link rel="stylesheet" href="{% static 'css/order_success.css' %}">
+</head>
+<body>
+
+<!-- 🎉 CONFETTI -->
+<canvas id="confetti"></canvas>
+
+
+<div class="success-box">
+
+    <!-- ✅ Tick Animation -->
+    <div class="checkmark-circle">
+        <div class="background"></div>
+        <div class="checkmark draw"></div>
+    </div>
+
+    <h1>Order Placed Successfully 🎉</h1>
+
+    <p>Thank you for shopping with us.</p>
+
+    <div class="order-id">
+        Order ID : <strong>#{{ order.id }}</strong>
+    </div>
+
+    <p class="info">
+        Redirecting in <span id="countdown">5</span> sec...
+    </p>
+
+    <div>
+        <a href="{% url 'order_tracking' order.id %}" class="track-btn">
+            Track Order
+        </a>
+
+        <a href="{% url 'index' %}" class="btn">
+            Continue Shopping
+        </a>
+    </div>
+
+</div>
+
+<script src="{% static 'js/order_success.js' %}"></script>
+
+</body>
+</html>

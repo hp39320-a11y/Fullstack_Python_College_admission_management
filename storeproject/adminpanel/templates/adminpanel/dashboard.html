@@ -1,0 +1,38 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Admin Dashboard</title>
+    <link rel="stylesheet" href="{% static 'css/dashboard.css' %}">
+</head>
+<body>
+
+<h1>Admin Dashboard</h1>
+
+<div class="stats-container">
+    <div class="stat-card">
+        <h3>Total Orders</h3>
+        <p>{{ orders }}</p>
+    </div>
+    <div class="stat-card">
+        <h3>Total Products</h3>
+        <p>{{ products }}</p>
+    </div>
+    <div class="stat-card">
+        <h3>Total Users</h3>
+        <p>{{ users }}</p>
+    </div>
+</div>
+
+<h2>Manage</h2>
+<div class="links-container">
+    <a href="/admin-panel/products/" class="dashboard-link">Products</a>
+    <a href="/admin-panel/categories/" class="dashboard-link">Categories</a>
+    <a href="/admin-panel/subcategories/" class="dashboard-link">Subcategories</a>
+    <a href="/admin-panel/orders/" class="dashboard-link">Orders</a>
+    <a href="/admin-panel/contacts/" class="dashboard-link">Contacts</a>
+    <a href="/admin-panel/coupons/" class="dashboard-link">Coupons</a>
+</div>
+
+</body>
+</html>

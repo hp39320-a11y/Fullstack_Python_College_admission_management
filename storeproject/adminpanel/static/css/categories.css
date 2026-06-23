@@ -1,0 +1,100 @@
+
+form {
+    max-width: 400px;
+    margin: 20px 0;
+    padding: 15px;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+}
+
+form input[type="text"] {
+    width: 100%;
+    padding: 8px 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 14px;
+}
+
+form button {
+    padding: 8px 15px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background-color 0.3s ease;
+}
+
+form button:hover {
+    background-color: #0056b3;
+}
+
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+table th, table td {
+    padding: 10px 15px;
+    border: 1px solid #ddd;
+    text-align: left;
+}
+
+table th {
+    background-color: #f2f2f2;
+    font-weight: bold;
+}
+
+table tr:nth-child(even) {
+    background-color: #fafafa;
+}
+
+/* Action links */
+table a {
+    text-decoration: none;
+    padding: 4px 8px;
+    border-radius: 4px;
+    color: white;
+    margin-right: 5px;
+    font-size: 13px;
+}
+
+table a.edit {
+    background-color: #28a745;
+}
+
+table a.edit:hover {
+    background-color: #218838;
+}
+
+table a.delete {
+    background-color: #dc3545;
+}
+
+table a.delete:hover {
+    background-color: #c82333;
+}
+
+/* Responsive for mobile */
+@media (max-width: 600px) {
+    table, table tr, table th, table td {
+        display: block;
+        width: 100%;
+    }
+    table tr { margin-bottom: 15px; border-bottom: 2px solid #ddd; }
+    table th { background-color: transparent; font-weight: bold; }
+    table td { border: none; padding: 5px 0; }
+}
+table a.edit, table a.delete {
+    display: inline-block;
+    padding: 5px 10px;
+    color: white;
+    border-radius: 4px;
+    text-decoration: none;
+    font-size: 13px;
+}

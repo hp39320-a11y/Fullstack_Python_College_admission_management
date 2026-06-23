@@ -1,0 +1,39 @@
+{% extends 'adminpanel/base.html' %}
+{% load static %}
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/coupon.css' %}">
+{% endblock %}
+
+{% block content %}
+<h2>Add Coupon</h2>
+
+{% if error %}
+<div class="error-box" style="background:#fde8e8; border:1px solid #f8b4b4; color:#9b1c1c; padding:12px; border-radius:6px; margin-bottom:16px;">
+  {{ error }}
+</div>
+{% endif %}
+
+<form method="post">
+    {% csrf_token %}
+
+    <label>Coupon Code</label>
+    <input type="text" name="code" required>
+
+    <label>Discount %</label>
+    <input type="number" name="discount" required>
+
+    <label>Valid From</label>
+    <input type="date" name="valid_from" required>
+
+    <label>Valid To</label>
+    <input type="date" name="valid_to" required>
+
+    <label>
+        Active 
+        <input type="checkbox" name="active">
+    </label>
+
+    <button type="submit" class="add-btn">Add Coupon</button>
+</form>
+
+{% endblock %}

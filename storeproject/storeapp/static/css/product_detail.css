@@ -1,0 +1,150 @@
+
+.product-detail-container {
+    display: flex;
+    gap: 60px;
+    padding: 60px;
+    margin-top: 80px;
+    background: #fff;
+}
+
+
+.product-images {
+    position: relative;
+}
+
+.product-images img {
+    width: 420px;
+    border-radius: 10px;
+}
+
+
+.wishlist-icon {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    background: white;
+    border: 1px solid #ddd;
+    font-size: 18px;
+    padding: 10px;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.wishlist-icon:hover {
+    background: black;
+    color: white;
+}
+
+
+.product-info {
+    max-width: 500px;
+}
+
+.product-title {
+    font-size: 30px;
+    font-weight: 600;
+}
+
+.product-price {
+    font-size: 26px;
+    font-weight: bold;
+    margin: 10px 0;
+}
+
+.product-stock {
+    color: green;
+    margin-bottom: 15px;
+}
+
+.product-description {
+    color: #555;
+    line-height: 1.6;
+    margin-bottom: 20px;
+}
+
+
+.size-section {
+    margin-bottom: 15px;
+}
+
+.size-options {
+    display: flex;
+    gap: 10px;
+}
+
+.size-btn {
+    padding: 8px 16px;
+    border: 1px solid #ccc;
+    background: white;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.size-btn:hover {
+    border-color: black;
+}
+
+.size-btn.active {
+    background: black;
+    color: white;
+}
+
+
+input[type="number"] {
+    padding: 8px;
+    width: 80px;
+    margin: 10px 0;
+}
+
+
+.product-buttons {
+    display: flex;
+    gap: 15px;
+    margin-top: 15px;
+}
+
+.product-buttons form {
+    flex: 1;
+}
+
+
+.buy-now-btn {
+    width: 100%;
+    padding: 12px;
+    background: #ff9f00;
+    color: white;
+    border: none;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.buy-now-btn:hover {
+    background: #fb8c00;
+}
+
+.add-to-cart-btn {
+    flex: 1;
+    padding: 12px;
+    background: white;
+    border: 1px solid black;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.add-to-cart-btn:hover {
+    background: black;
+    color: white;
+}
+
+
+@media(max-width:768px){
+    .product-detail-container {
+        flex-direction: column;
+        padding: 20px;
+    }
+
+    .product-images img {
+        width: 100%;
+    }
+}

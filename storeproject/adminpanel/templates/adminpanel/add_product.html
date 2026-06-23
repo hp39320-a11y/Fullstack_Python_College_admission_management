@@ -1,0 +1,52 @@
+{% extends 'adminpanel/base.html' %}
+{% load static %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/products.css' %}">
+{% endblock %}
+
+{% block content %}
+
+<h2>Add Product</h2>
+
+<form method="POST" enctype="multipart/form-data" class="product-form">
+    {% csrf_token %}
+
+    <label>Name</label>
+    <input type="text" name="name" required>
+
+    <label>Price</label>
+    <input type="number" name="price" step="0.01" required>
+
+    <label>Description</label>
+    <textarea name="description"></textarea>
+
+    <label>Sizes</label>
+    <input type="text" name="sizes" placeholder="S,M,L,XL">
+
+    <label>Stock</label>
+    <input type="number" name="stock" required>
+
+    <label>Category</label>
+    <select name="category" required>
+        {% for c in categories %}
+        <option value="{{ c.id }}">{{ c.name }}</option>
+        {% endfor %}
+    </select>
+
+    <label>Subcategory</label>
+    <select name="subcategory" required>
+        {% for s in subs %}
+        <option value="{{ s.id }}">{{ s.category.name }} - {{ s.name }}</option>
+        {% endfor %}
+    </select>
+    
+    <label>Image</label>
+    <input type="file" name="image">
+
+    <button type="submit" class="btn add-btn">Add Product</button>
+</form>
+
+<a href="{% url 'admin_products' %}" class="btn back-btn">Back to Products</a>
+
+{% endblock %}

@@ -1,0 +1,16 @@
+{% extends 'adminpanel/base.html' %}
+{% load static %}
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/categories.css' %}">
+{% endblock %}
+{% block content %}
+
+<h2>Edit Category</h2>
+
+<form method="POST">
+{% csrf_token %}
+<input type="text" name="name" value="{{ category.name }}">
+<button type="submit">Update</button>
+</form>
+
+{% endblock %}

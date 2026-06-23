@@ -1,0 +1,25 @@
+{% extends 'adminpanel/base.html' %}
+{% load static %}
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/categories.css' %}">
+{% endblock %}
+{% block content %}
+
+<h2>Add Subcategory</h2>
+
+<form method="POST">
+{% csrf_token %}
+
+<input type="text" name="name" placeholder="Subcategory name">
+
+<select name="category">
+{% for c in categories %}
+<option value="{{ c.id }}">{{ c.name }}</option>
+{% endfor %}
+</select>
+
+<button type="submit">Add</button>
+
+</form>
+
+{% endblock %}

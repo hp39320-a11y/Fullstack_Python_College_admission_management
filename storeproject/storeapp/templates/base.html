@@ -1,0 +1,136 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+
+<link rel="stylesheet" href="{% static 'css/style.css' %}">
+
+{% block extra_css %}{% endblock %}
+
+<title>{% block title %}Clothing{% endblock %}</title>
+</head>
+
+<body>
+    
+
+<header>
+    
+
+<div class="header-left">
+
+<div class="logo">UrbanWear</div>
+
+<form method="GET" action="{% url 'search' %}" class="search-form">
+<input type="text" name="q" placeholder="Search products..." required>
+<button type="submit">🔍</button>
+</form>
+
+</div>
+
+<nav>
+
+<ul class="navbar">
+
+<li><a href="{% url 'index' %}">Home</a></li>
+<li><a href="{% url 'shop' %}">Shop</a></li>
+
+{% for c in categories %}
+<li>
+<a href="{% url 'category_view' c.id %}">
+{{ c.name }}
+</a>
+</li>
+{% endfor %}
+
+<li>
+<a href="{% url 'cart_detail' %}">
+🛒 Cart ({{cart_count}})
+</a>
+</li>
+
+{% if user.is_authenticated %}
+
+<li class="dropdown">
+
+<a href="#" class="dropbtn">
+👤 {{ user.first_name|default:user.username }}
+</a>
+
+<div class="dropdown-content">
+<a href="{% url 'order_history' %}">My Orders</a>
+<a href="{% url 'wishlist' %}">Wishlist</a>
+<a href="{% url 'contact' %}">Contact</a>
+<a href="{% url 'logout' %}">Logout</a>
+
+</div>
+
+</li>
+
+{% else %}
+
+<li><a href="{% url 'login' %}">Login</a></li>
+<li><a href="{% url 'register' %}">Register</a></li>
+
+{% endif %}
+
+</ul>
+
+</nav>
+
+</header>
+
+
+{% block content %}
+{% endblock %}
+
+
+<footer>
+
+<div class="footer-container">
+
+<div>
+
+<h3>Shop</h3>
+
+{% for category in categories %}
+<a href="{% url 'category_view' category.id %}">
+{{ category.name }}
+</a>
+{% endfor %}
+
+</div>
+
+<div>
+
+<h3>Customer</h3>
+
+<a href="{% url 'cart_detail' %}">Cart</a>
+<a href="{% url 'wishlist' %}">Wishlist</a>
+<a href="{% url 'order_history' %}">My Orders</a>
+<a href="{% url 'contact' %}">Contact</a>
+
+</div>
+
+
+<div>
+
+<h3>About Store</h3>
+
+<p>
+UrbanWear is an online clothing store offering the latest fashion for men and women.
+</p>
+
+</div>
+
+</div>
+
+<p class="copyright">
+© 2026 UrbanWear. All rights reserved.
+</p>
+
+</footer>
+<div id="toast"></div>
+<script src="{% static 'js/toast.js' %}"></script>
+</body>
+</html>

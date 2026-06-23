@@ -1,0 +1,209 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/checkout.css' %}">
+{% endblock %}
+
+{% block content %}
+
+<div class="checkout-container">
+
+<h2 class="checkout-title">Checkout</h2>
+
+<form method="POST" action="{% url 'checkout' %}" id="checkoutForm">
+{% csrf_token %}
+
+<div class="checkout-layout">
+
+<!-- LEFT -->
+<div class="checkout-left">
+
+<!-- PRODUCTS -->
+<div class="box">
+<h3>Products</h3>
+
+{% for item in cart_items %}
+<div class="product-row">
+
+<img src="{{ item.product.image.url }}" class="product-img">
+
+<div class="product-details">
+<p class="product-name">{{ item.product.name }}</p>
+<p class="product-price">₹{{ item.product.price }}</p>
+
+<div class="qty-box">
+<a href="{% url 'checkout_decrease' item.product.id %}" class="qty-btn">-</a>
+<span class="qty-number">{{ item.quantity }}</span>
+<a href="{% url 'checkout_increase' item.product.id %}" class="qty-btn">+</a>
+</div>
+</div>
+
+<p class="item-total">₹{{ item.total_price }}</p>
+
+</div>
+{% endfor %}
+</div>
+
+<!-- ADDRESS -->
+<div class="box">
+<div class="address-top">
+
+<div>
+<p class="deliver-label">Deliver to:</p>
+<p id="selectedAddress" class="deliver-text">
+{% if addresses %}
+{{ addresses.0.full_name }}, {{ addresses.0.city }}
+{% else %}
+Select your address
+{% endif %}
+</p>
+</div>
+
+<button type="button" id="changeAddressBtn" class="change-btn">
+Change
+</button>
+
+</div>
+</div>
+
+</div>
+
+<!-- RIGHT -->
+<div class="checkout-right">
+<div class="summary-box">
+
+<h3>Order Summary</h3>
+
+<p>Total Items: {{ cart_items|length }}</p>
+
+<!-- 🔥 COUPON -->
+<div class="coupon-list">
+    <h4>Available Coupons</h4>
+
+    {% for coupon in available_coupons %}
+        <div class="coupon-card">
+
+            <p><strong>{{ coupon.code }}</strong></p>
+            <p>{{ coupon.discount }}% OFF</p>
+
+            <!-- 🔥 IMPORTANT BUTTON -->
+            <button type="submit"
+                    name="apply_coupon"
+                    value="{{ coupon.code }}">
+                Apply
+            </button>
+
+        </div>
+    {% empty %}
+        <p>No coupons available</p>
+    {% endfor %}
+</div>
+
+<!-- 🔥 TOTAL FIXED -->
+<p>Subtotal: ₹{{ subtotal|default:0 }}</p>
+
+{% if discount %}
+<p class="applied-coupon">
+    Coupon {{ coupon_code }} applied -₹{{ discount|floatformat:2 }} ✅
+</p>
+{% endif %}
+
+<p class="total-price">
+    Total: ₹{{ total|default:0|floatformat:2 }}
+</p>
+
+<!-- PAYMENT -->
+<div class="payment-box">
+<h3>Payment Method</h3>
+
+<label class="payment-option">
+<input type="radio" name="payment_method" value="COD" checked>
+<span>Cash on Delivery</span>
+</label>
+
+<label class="payment-option">
+<input type="radio" name="payment_method" value="RAZORPAY">
+<span>Pay Online</span>
+</label>
+</div>
+
+<!-- BUTTON -->
+<button type="submit" class="checkout-btn">
+    Place Order
+</button>
+
+{% if error %}
+<p class="error">{{ error }}</p>
+{% endif %}
+
+</div>
+</div>
+
+</div>
+
+<!-- 🔥 ADDRESS MODAL -->
+<div id="addressModal" class="modal">
+
+<div class="modal-box">
+
+<div class="modal-header">
+<h3>Select delivery address</h3>
+<span id="closeModal">&times;</span>
+</div>
+
+<div class="modal-body">
+
+{% for addr in addresses %}
+<label class="modal-card">
+
+<input type="radio" name="address" value="{{ addr.id }}"
+{% if forloop.first %}checked{% endif %}>
+
+<div class="modal-text">
+<p class="name">{{ addr.full_name }}</p>
+<p class="addr">{{ addr.address_line }}</p>
+<p class="city">{{ addr.city }} - {{ addr.pincode }}</p>
+<p class="phone">{{ addr.phone }}</p>
+</div>
+
+</label>
+{% endfor %}
+
+<!-- ADD NEW -->
+<button type="button" id="addNewBtn">+ Add New Address</button>
+
+<div id="newAddressForm" style="display:none;">
+
+<input type="text" name="full_name" placeholder="Full Name">
+<input type="text" name="phone" placeholder="Phone">
+<textarea name="address_line" placeholder="Address"></textarea>
+
+<div class="row">
+<input type="text" name="city" placeholder="City">
+<input type="text" name="state" placeholder="State">
+</div>
+
+<input type="text" name="pincode" placeholder="Pincode">
+
+<input type="hidden" name="new_address" id="new_address_flag">
+
+
+<button type="submit"
+        onclick="document.getElementById('new_address_flag').value='1'">
+    Save Address & Use
+</button>
+
+</div>
+
+</div>
+</div>
+</div>
+
+</form>
+</div>
+
+<!-- JS -->
+<script src="{% static 'js/checkout.js' %}"></script>
+
+{% endblock %}

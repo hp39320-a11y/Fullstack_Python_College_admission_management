@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/category.css' %}">
+{% endblock %}
+
+{% block title %}{{ category.name }} | Clothing{% endblock %}
+
+{% block content %}
+
+<h2 class="page-title">{{ category.name }} Collection</h2>
+
+<div class="subcategory-container">
+
+{% if subcategories %}
+
+    {% for sub in subcategories %}
+
+    <a href="{% url 'subcategory_view' sub.id %}" 
+       class="subcategory-card"
+       style="background-image:url('{{ sub.image.url }}');">
+
+        <div class="subcategory-name">
+            {{ sub.name }}
+        </div>
+
+    </a>
+
+    {% endfor %}
+
+{% else %}
+
+<p>No subcategories available.</p>
+
+{% endif %}
+
+</div>
+
+{% endblock %}

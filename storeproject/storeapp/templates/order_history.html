@@ -1,0 +1,148 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/order_history.css' %}">
+{% endblock %}
+
+{% block content %}
+
+<h2 class="page-title">My Orders</h2>
+
+{% for order in orders %}
+
+<div class="order-box">
+
+    <!-- HEADER -->
+    <div class="order-header">
+        <h3>Order #{{ order.id }}</h3>
+        <p>{{ order.created_at|date:"d M Y" }}</p>
+
+        <!-- ✅ STATUS -->
+        <p class="status {{ order.status }}">
+            {% if order.status == "cancelled" %}
+                ❌ Cancelled
+            {% elif order.status == "pending" %}
+                ⏳ Pending
+            {% elif order.status == "processing" %}
+                🔄 Processing
+            {% elif order.status == "shipped" %}
+                🚚 Shipped
+            {% elif order.status == "delivered" %}
+                ✅ Delivered
+            {% endif %}
+        </p>
+
+        <!-- ACTIONS -->
+        <div class="order-actions">
+            <a href="{% url 'order_tracking' order.id %}" class="track-btn">
+                Track Order
+            </a>
+
+            <!-- ✅ CANCEL BUTTON -->
+            {% if order.status != "cancelled" and order.status != "delivered" %}
+            <a href="#"
+               class="cancel-btn open-cancel-modal"
+               data-url="{% url 'cancel_order' order.id %}">
+               Cancel
+            </a>
+            {% endif %}
+        </div>
+    </div>
+
+    <!-- PRODUCTS -->
+    <div class="order-products">
+
+        {% for item in order.orderitem_set.all %}
+        <div class="order-item">
+
+            <div class="order-img">
+                <img src="{{ item.product.image.url }}">
+            </div>
+
+            <div class="order-info">
+                <h4>{{ item.product.name }}</h4>
+                <p>Qty: {{ item.quantity }}</p>
+                <p>₹{{ item.price }}</p>
+            </div>
+
+        </div>
+        {% endfor %}
+
+    </div>
+
+    <p class="order-total">Total: ₹{{ order.total_amount }}</p>
+
+</div>
+
+{% empty %}
+<p class="empty">No orders found</p>
+{% endfor %}
+
+
+<!-- 🔥 CANCEL MODAL -->
+<div id="cancelModal" class="modal">
+    <div class="modal-box">
+        <h3>Cancel Order?</h3>
+        <p>Are you sure you want to cancel this order?</p>
+
+        <div class="modal-actions">
+            <button class="close-modal">No</button>
+            <a id="confirmCancelBtn" href="#">Yes, Cancel</a>
+        </div>
+    </div>
+</div>
+
+
+<!-- ✅ SUCCESS MESSAGE -->
+{% for message in messages %}
+<div class="cancel-success">
+    <div class="success-box">
+        <div class="cross">✖</div>
+        <h3>{{ message }}</h3>
+    </div>
+</div>
+{% endfor %}
+
+
+<!-- 🔥 PAGINATION -->
+<div class="pagination">
+
+    {% if orders.has_previous %}
+        <a href="?page=1">First</a>
+        <a href="?page={{ orders.previous_page_number }}">Prev</a>
+    {% endif %}
+
+    {% for num in orders.paginator.page_range %}
+        {% if orders.number == num %}
+            <span class="active">{{ num }}</span>
+        {% else %}
+            <a href="?page={{ num }}">{{ num }}</a>
+        {% endif %}
+    {% endfor %}
+
+    {% if orders.has_next %}
+        <a href="?page={{ orders.next_page_number }}">Next</a>
+        <a href="?page={{ orders.paginator.num_pages }}">Last</a>
+    {% endif %}
+
+</div>
+
+
+<!-- 🔥 MODAL JS -->
+<script>
+document.querySelectorAll(".open-cancel-modal").forEach(btn => {
+    btn.addEventListener("click", function () {
+        document.getElementById("cancelModal").classList.add("active");
+
+        const url = this.getAttribute("data-url");
+        document.getElementById("confirmCancelBtn").href = url;
+    });
+});
+
+document.querySelector(".close-modal").onclick = function () {
+    document.getElementById("cancelModal").classList.remove("active");
+};
+</script>
+
+{% endblock %}

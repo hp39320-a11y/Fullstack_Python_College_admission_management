@@ -1,0 +1,83 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Register</title>
+    <link rel="stylesheet" href="{% static 'css/register.css' %}">
+</head>
+
+<body>
+
+<div class="register-container">
+
+    <h2>Create Account 🚀</h2>
+    <p class="subtitle">Join UrbanWear</p>
+
+    <form method="POST">
+        {% csrf_token %}
+
+        {% if form.non_field_errors %}
+            <div class="error-box">
+                {{ form.non_field_errors }}
+            </div>
+        {% endif %}
+
+        <!-- FIRST NAME -->
+        <div class="input-box">
+            <label>First Name</label>
+            {{ form.first_name }}
+            {{ form.first_name.errors }}
+        </div>
+
+        <!-- LAST NAME -->
+        <div class="input-box">
+            <label>Last Name</label>
+            {{ form.last_name }}
+            {{ form.last_name.errors }}
+        </div>
+
+        <!-- USERNAME -->
+        <div class="input-box">
+            <label>Username</label>
+            {{ form.username }}
+            {{ form.username.errors }}
+        </div>
+
+        <!-- PASSWORD -->
+        <div class="input-box password-box">
+            <label>Password</label>
+            {{ form.password1 }}
+            <span class="toggle-password" onclick="togglePassword('id_password1')">👁️</span>
+            {{ form.password1.errors }}
+        </div>
+
+        <!-- CONFIRM PASSWORD -->
+        <div class="input-box password-box">
+            <label>Confirm Password</label>
+            {{ form.password2 }}
+            <span class="toggle-password" onclick="togglePassword('id_password2')">👁️</span>
+            {{ form.password2.errors }}
+        </div>
+
+        <button type="submit">Register</button>
+
+    </form>
+
+    <p class="login-link">
+        Already have an account?
+        <a href="{% url 'login' %}">Login</a>
+    </p>
+
+</div>
+
+<script>
+function togglePassword(id){
+    const input = document.getElementById(id);
+    if(input){
+        input.type = input.type === "password" ? "text" : "password";
+    }
+}
+</script>
+
+</body>
+</html>

@@ -1,0 +1,27 @@
+{% extends 'adminpanel/base.html' %}
+{% load static %}
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/categories.css' %}">
+{% endblock %}
+{% block content %}
+
+<h2>Edit Subcategory</h2>
+
+<form method="POST">
+{% csrf_token %}
+
+<input type="text" name="name" value="{{ sub.name }}">
+
+<select name="category">
+{% for c in categories %}
+<option value="{{ c.id }}" {% if c.id == sub.category.id %}selected{% endif %}>
+{{ c.name }}
+</option>
+{% endfor %}
+</select>
+
+<button type="submit">Update</button>
+
+</form>
+
+{% endblock %}

@@ -1,0 +1,523 @@
+/* GLOBAL */
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+body{
+    font-family: Arial, sans-serif;
+    background:#f5f5f5;
+}
+
+img{
+    max-width:100%;
+    display:block;
+}
+
+/* CONTAINER */
+.checkout-container{
+    max-width:1100px;
+    margin:80px auto;
+    padding:20px;
+}
+
+/* TITLE */
+.checkout-title{
+    text-align:center;
+    margin-bottom:30px;
+    font-size:28px;
+    font-weight:bold;
+}
+
+/* 🔥 LAYOUT FIX */
+.checkout-layout{
+    display:grid;
+    grid-template-columns: 2fr 1fr;
+    gap:25px;
+    align-items:start;
+}
+
+/* 🔥 IMPORTANT FIX (PREVENT BREAK) */
+.checkout-left,
+.checkout-right{
+    min-width:0;
+}
+
+/* LEFT */
+.checkout-left{
+    display:flex;
+    flex-direction:column;
+    gap:20px;
+}
+
+/* 🔥 RIGHT SIDE FIX */
+.checkout-right{
+    position:sticky;
+    top:100px;
+    height:fit-content;
+}
+
+/* BOX */
+.box{
+    background:white;
+    padding:20px;
+    border-radius:10px;
+    box-shadow:0 4px 15px rgba(0,0,0,0.1);
+}
+
+/* PRODUCT */
+.product-row{
+    display:flex;
+    align-items:center;
+    gap:15px;
+    border-bottom:1px solid #eee;
+    padding:12px 0;
+    flex-wrap:nowrap; /* 🔥 fix wrap issue */
+}
+
+.product-img{
+    width:80px;
+    height:80px;
+    object-fit:cover;
+    border-radius:8px;
+}
+
+.product-details{
+    flex:1;
+    min-width:0;
+}
+
+.product-name{
+    font-weight:bold;
+    white-space:nowrap;
+    overflow:hidden;
+    text-overflow:ellipsis;
+}
+
+.product-price{
+    color:green;
+    font-size:14px;
+}
+
+/* QTY */
+.qty-box{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    margin-top:5px;
+}
+
+.qty-btn{
+    width:30px;
+    height:30px;
+    background:black;
+    color:white;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    border-radius:5px;
+    text-decoration:none;
+}
+
+.qty-number{
+    font-weight:bold;
+}
+
+/* 🔥 MODAL */
+.modal{
+    display:none;
+    position:fixed;
+    top:0;
+    left:0;
+    width:100%;
+    height:100%;
+    background:rgba(0,0,0,0.5);
+    z-index:9999;
+    justify-content:center;
+    align-items:center;
+}
+
+.modal.active{
+    display:flex;
+}
+
+/* MODAL BOX */
+.modal-box{
+    width:400px;
+    max-width:90%;
+    max-height:80vh;
+    background:#fff;
+    border-radius:6px;
+    overflow:hidden;
+    display:flex;
+    flex-direction:column;
+}
+
+/* HEADER */
+.modal-header{
+    display:flex;
+    justify-content:space-between;
+    padding:15px;
+    border-bottom:1px solid #eee;
+}
+
+.close-btn{
+    font-size:22px;
+    cursor:pointer;
+}
+
+/* BODY */
+.modal-body{
+    padding:15px;
+    overflow-y:auto;
+}
+
+/* CARD */
+.modal-card{
+    display:flex;
+    gap:10px;
+    padding:10px;
+    border:1px solid #ddd;
+    margin-bottom:10px;
+    cursor:pointer;
+}
+
+.modal-card input{
+    transform:scale(0.8);
+    accent-color:#2874f0;
+}
+
+.modal-card:has(input:checked){
+    border:2px solid #2874f0;
+    background:#f5faff;
+}
+
+/* TEXT */
+.modal-text .name{
+    font-weight:bold;
+}
+
+/* ADD BUTTON */
+.add-new-btn{
+    background:none;
+    border:none;
+    color:#2874f0;
+    font-weight:bold;
+    margin:10px 0;
+    cursor:pointer;
+}
+.change-btn{
+    background:#2874f0;        /* 🔵 Blue */
+    color:#fff;
+    border:none;
+    padding:7px 16px;
+    font-size:13px;
+    border-radius:3px;
+    cursor:pointer;
+    font-weight:500;
+    transition:0.2s;
+}
+
+.change-btn:hover{
+    background:#1c5ed6;        /* darker blue */
+}
+
+/* INPUTS */
+.box input,
+.box textarea{
+    width:100%;
+    padding:10px;
+    margin-bottom:10px;
+    border:1px solid #ccc;
+    border-radius:5px;
+}
+
+.row{
+    display:flex;
+    gap:10px;
+}
+
+/* SUMMARY */
+.summary-box{
+    background:white;
+    padding:20px;
+    border-radius:10px;
+    box-shadow:0 4px 15px rgba(0,0,0,0.1);
+}
+
+.total-price{
+    font-size:24px;
+    font-weight:bold;
+    color:green;
+}
+
+/* PAYMENT */
+.payment-box{
+    margin-top:20px;
+}
+
+.payment-option{
+    display:flex;
+    gap:8px;
+    margin-bottom:10px;
+}
+
+/* BUTTON */
+.checkout-btn{
+    width:100%;
+    background:#fb641b;
+    color:white;
+    padding:12px;
+    border:none;
+    border-radius:6px;
+    cursor:pointer;
+}
+
+/* 🔥 MOBILE */
+@media(max-width:768px){
+    .checkout-layout{
+        grid-template-columns:1fr;
+    }
+
+    .checkout-right{
+        position:static;
+    }
+
+    .product-row{
+        flex-wrap:wrap;
+    }
+}
+/* 🔥 NEW ADDRESS FORM BOX */
+#newAddressForm{
+    margin-top:15px;
+    padding:15px;
+    border:1px solid #ddd;
+    border-radius:6px;
+    background:#fafafa;
+}
+
+/* INPUT STYLE */
+#newAddressForm input,
+#newAddressForm textarea{
+    width:100%;
+    padding:10px;
+    margin-bottom:10px;
+    border:1px solid #ccc;
+    border-radius:4px;
+    font-size:14px;
+    outline:none;
+}
+
+/* FOCUS EFFECT */
+#newAddressForm input:focus,
+#newAddressForm textarea:focus{
+    border-color:#2874f0;
+    box-shadow:0 0 3px rgba(40,116,240,0.3);
+}
+
+/* ROW (CITY + STATE) */
+#newAddressForm .row{
+    display:flex;
+    gap:10px;
+}
+
+#newAddressForm .row input{
+    width:100%;
+}
+.save-address-btn{
+    width:100%;
+    background:#2874f0;
+    color:white;
+    padding:12px;
+    border:none;
+    border-radius:4px;
+    font-size:14px;
+    cursor:pointer;
+    font-weight:600;
+}
+
+.save-address-btn:hover{
+    background:#1c5ed6;
+}
+/* PAYMENT METHOD CONTAINER */
+.payment-box {
+    margin-top: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+/* EACH OPTION */
+.payment-box label {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 10px 15px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    background: #fff;
+}
+
+/* HOVER EFFECT */
+.payment-box label:hover {
+    border-color: #2874f0;
+    background: #f5faff;
+}
+
+/* RADIO BUTTON */
+.payment-box input[type="radio"] {
+    accent-color: #2874f0; /* modern color for checked radio */
+    width: 18px;
+    height: 18px;
+}
+
+/* SELECTED STATE */
+.payment-box input[type="radio"]:checked + span,
+.payment-box input[type="radio"]:checked ~ span {
+    font-weight: 600;
+    color: #2874f0;
+}
+
+.payment-box label input[type="radio"]:checked {
+    border-color: #2874f0;
+    background: #2874f0;
+}
+
+/* OPTIONAL: Add a checkmark effect */
+.payment-box label.selected {
+    border: 2px solid #2874f0;
+    background: #f5faff;
+}
+
+/* PAYMENT OPTION TEXT */
+.payment-box label span {
+    font-size: 14px;
+    color: #333;
+}
+/* ============================= */
+/* 🎟️ COUPON BOX */
+/* ============================= */
+
+.coupon-box {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 15px;
+}
+
+.coupon-box input {
+    flex: 1;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    font-size: 14px;
+}
+
+.coupon-box button {
+    padding: 10px 15px;
+    background-color: #2874f0;
+    color: #fff;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: 500;
+    transition: 0.3s;
+}
+
+.coupon-box button:hover {
+    background-color: #1c5fd1;
+}
+
+
+/* ============================= */
+/* 🎟️ COUPON LIST */
+/* ============================= */
+
+.coupon-list {
+    margin-top: 15px;
+}
+
+.coupon-list h4 {
+    margin-bottom: 10px;
+    font-size: 16px;
+    color: #333;
+}
+
+
+/* ============================= */
+/* 🎟️ COUPON CARD */
+/* ============================= */
+
+.coupon-card {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px;
+    margin-bottom: 10px;
+    border: 1px dashed #ccc;
+    border-radius: 8px;
+    background-color: #fafafa;
+    transition: 0.3s;
+}
+
+.coupon-card:hover {
+    border-color: #2874f0;
+    background-color: #f0f6ff;
+}
+
+
+/* LEFT TEXT */
+.coupon-card p {
+    margin: 0;
+    font-size: 14px;
+}
+
+.coupon-card strong {
+    font-size: 15px;
+    color: #000;
+}
+
+
+/* APPLY BUTTON */
+.coupon-card button {
+    padding: 6px 12px;
+    background-color: #28a745;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 13px;
+    transition: 0.3s;
+}
+
+.coupon-card button:hover {
+    background-color: #218838;
+}
+
+
+/* ============================= */
+/* ✅ APPLIED COUPON */
+/* ============================= */
+
+.applied-coupon {
+    margin-top: 10px;
+    padding: 8px;
+    background-color: #e6f9ec;
+    border: 1px solid #28a745;
+    color: #28a745;
+    border-radius: 6px;
+    font-size: 14px;
+}
+
+
+/* ============================= */
+/* ❌ ERROR MESSAGE */
+/* ============================= */
+
+.error {
+    margin-top: 10px;
+    color: red;
+    font-size: 13px;
+}

@@ -1,0 +1,31 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" href="{% static 'css/admin.css' %}">
+    {% block extra_css %}{% endblock %}
+    <title>Admin Panel</title>
+</head>
+
+<body>
+
+<div class="container">
+
+    <div class="sidebar">
+        <h2>Admin</h2>
+        <a href="{% url 'admin_dashboard' %}">Dashboard</a>
+        <a href="{% url 'admin_products' %}">Products</a>
+        <a href="{% url 'admin_orders' %}">Orders</a>
+        <a href="{% url 'admin_contacts' %}">Contacts</a>
+        <a href="{% url 'admin_coupons' %}">Coupons</a>
+        <a href="{% url 'admin_logout' %}">Logout</a>
+    </div>
+
+    <div class="content">
+        {% block content %}{% endblock %}
+    </div>
+
+</div>
+
+</body>
+</html>

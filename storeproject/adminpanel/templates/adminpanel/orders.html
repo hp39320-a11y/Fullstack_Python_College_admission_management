@@ -1,0 +1,45 @@
+{% extends 'adminpanel/base.html' %}
+{% load static %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/products.css' %}">
+{% endblock %}
+
+{% block content %}
+<h2>Orders</h2>
+
+<table class="products-table">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>User</th>
+            <th>Total Amount</th>
+            <th>Payment Method</th>
+            <th>Status</th>
+            <th>Created At</th>
+            <th>Action</th> <!-- Make sure this header exists -->
+        </tr>
+    </thead>
+
+    <tbody>
+    {% for order in orders %}
+        <tr>
+            <td>{{ order.id }}</td>
+            <td>{{ order.user.username }}</td>
+            <td>₹{{ order.total_amount }}</td>
+            <td>{{ order.payment_method }}</td>
+            <td>{{ order.status }}</td>
+            <td>{{ order.created_at|date:"d M Y H:i" }}</td>
+            <td>
+                <a href="{% url 'view_order' order.id %}" class="btn view-btn">View</a>
+            </td>
+        </tr>
+    {% empty %}
+        <tr>
+            <td colspan="7">No orders found.</td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
+
+{% endblock %}

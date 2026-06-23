@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Pay Now</title>
+    <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+
+    <style>
+        /* ====== Global ====== */
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f8f8f8;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        /* ====== Header ====== */
+        header {
+            background: #111;
+            color: white;
+            padding: 15px;
+            text-align: center;
+        }
+
+        /* ====== Main container ====== */
+        .pay-container {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .pay-box {
+            background: white;
+            padding: 40px 60px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            text-align: center;
+        }
+
+        .pay-box h2 {
+            margin-bottom: 25px;
+            color: #333;
+        }
+
+        /* ====== Pay Now button ====== */
+        #pay-btn {
+            background: #3399cc;
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background 0.3s;
+        }
+
+        #pay-btn:hover {
+            background: #287a9c;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header -->
+    <header>
+        <h1>Urban Wear</h1>
+    </header>
+
+    <!-- Main Pay Now container -->
+    <main class="pay-container">
+        <div class="pay-box">
+            <h2>Complete Your Payment</h2>
+            <button id="pay-btn">Pay Now</button>
+        </div>
+    </main>
+
+   
+
+    <!-- Razorpay JS -->
+    <script>
+document.addEventListener("DOMContentLoaded", function () {
+
+    const csrfToken = "{{ csrf_token }}";
+
+    var options = {
+        "key": "{{ key }}",
+        "amount": "{{ payment.amount }}",
+        "currency": "INR",
+        "name": "UrbanWear",
+        "description": "Order Payment",
+
+        // ✅ CORRECT
+        "order_id": "{{ payment.id }}",
+
+        "handler": function (response) {
+
+            var form = document.createElement("form");
+            form.method = "POST";
+            form.action = "/payment-success/";
+
+            // CSRF
+            var csrfInput = document.createElement("input");
+            csrfInput.type = "hidden";
+            csrfInput.name = "csrfmiddlewaretoken";
+            csrfInput.value = csrfToken;
+            form.appendChild(csrfInput);
+
+            // Order ID
+            var orderInput = document.createElement("input");
+            orderInput.type = "hidden";
+            orderInput.name = "order_id";
+            orderInput.value = "{{ order.id }}";
+            form.appendChild(orderInput);
+
+            // Payment ID
+            var paymentInput = document.createElement("input");
+            paymentInput.type = "hidden";
+            paymentInput.name = "payment_id";
+            paymentInput.value = response.razorpay_payment_id;
+            form.appendChild(paymentInput);
+
+            document.body.appendChild(form);
+            form.submit();
+        },
+
+        "theme": {
+            "color": "#3399cc"
+        }
+    };
+
+    var rzp = new Razorpay(options);
+
+    document.getElementById("pay-btn").onclick = function (e) {
+        rzp.open();
+        e.preventDefault();
+    };
+
+});
+</script>
+</body>
+</html>

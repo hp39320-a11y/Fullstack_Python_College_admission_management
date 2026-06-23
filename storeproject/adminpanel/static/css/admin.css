@@ -1,0 +1,179 @@
+
+body {
+    margin: 0;
+    font-family: 'Segoe UI', sans-serif;
+    background: #f4f6f9;
+}
+
+a {
+    text-decoration: none;
+}
+
+
+.container {
+    display: flex;
+}
+
+
+.sidebar {
+    width: 230px;
+    height: 100vh;
+    background: #1e1e2f;
+    color: #fff;
+    padding: 20px;
+    position: fixed;
+}
+
+.sidebar h2 {
+    margin-bottom: 20px;
+}
+
+.sidebar a {
+    display: block;
+    padding: 10px;
+    margin: 8px 0;
+    color: #ccc;
+    border-radius: 6px;
+    transition: 0.3s;
+}
+
+.sidebar a:hover {
+    background: #34344e;
+    color: #fff;
+}
+
+.sidebar .logout {
+    margin-top: 30px;
+    color: #ff4d4d;
+}
+
+.content {
+    margin-left: 250px;
+    padding: 20px;
+    width: 100%;
+}
+
+.cards {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+
+.cards div {
+    background: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    flex: 1;
+    min-width: 180px;
+    text-align: center;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    background: #fff;
+}
+
+table th, table td {
+    padding: 12px;
+    border-bottom: 1px solid #ddd;
+    text-align: left;
+}
+
+table th {
+    background: #f0f0f0;
+}
+
+table tr:hover {
+    background: #f9f9f9;
+}
+
+
+button, .btn {
+    padding: 8px 12px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+/* ADD BUTTON */
+.add-btn {
+    background: #28a745;
+    color: #fff;
+}
+
+/* EDIT */
+.edit-btn {
+    background: #007bff;
+    color: #fff;
+}
+
+/* DELETE */
+.delete-btn {
+    background: #dc3545;
+    color: #fff;
+}
+
+/* HOVER */
+button:hover {
+    opacity: 0.9;
+}
+
+
+.form-box {
+    background: #fff;
+    padding: 25px;
+    border-radius: 10px;
+    width: 420px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+}
+
+.form-box label {
+    font-weight: 500;
+}
+
+.form-box input,
+.form-box select {
+    width: 100%;
+    padding: 10px;
+    margin: 8px 0 15px 0;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+}
+
+.filter-box {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 15px;
+}
+
+.filter-box input,
+.filter-box select {
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+}
+
+img {
+    border-radius: 6px;
+}
+
+
+
+@media (max-width: 768px) {
+
+    .sidebar {
+        width: 180px;
+    }
+
+    .content {
+        margin-left: 190px;
+    }
+
+    .cards {
+        flex-direction: column;
+    }
+}

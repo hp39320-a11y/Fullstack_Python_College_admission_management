@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/subcategory.css' %}">
+{% endblock %}
+
+{% block title %}Products in {{ subcategory.name }} | Clothing{% endblock %}
+
+{% block content %}
+<h2>{{ subcategory.name }} Collection</h2>
+
+<div class="product-list">
+    {% if products %}
+        {% for product in products %}
+        <div class="product">
+
+            <!-- ❤️ Wishlist -->
+            <button class="wishlist-btn" data-id="{{ product.id }}">
+                ❤️
+            </button>
+
+            <!-- IMAGE -->
+            <a href="{% url 'product_detail' product.id %}">
+                {% if product.image %}
+                    <img src="{{ product.image.url }}" alt="{{ product.name }}">
+                {% else %}
+                    <img src="https://via.placeholder.com/300x200">
+                {% endif %}
+            </a>
+
+            <!-- NAME -->
+            <p class="product-name">
+                <a href="{% url 'product_detail' product.id %}">
+                    {{ product.name }}
+                </a>
+            </p>
+
+            <!-- PRICE -->
+            <p class="product-price">₹{{ product.price }}</p>
+
+            {% if product.stock > 0 %}
+            <div class="product-actions">
+            </div>
+            {% else %}
+                <p class="out">Out of stock</p>
+            {% endif %}
+
+        </div>
+        {% endfor %}
+    {% else %}
+        <p class="no-product">No products available</p>
+    {% endif %}
+</div>
+{% endblock %}

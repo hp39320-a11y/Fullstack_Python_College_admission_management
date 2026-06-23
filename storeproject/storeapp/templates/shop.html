@@ -1,0 +1,122 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+<link rel="stylesheet" href="{% static 'css/shop.css' %}">
+
+<h2 class="page-title">Shop</h2>
+
+<div class="shop-container">
+
+    <!-- FILTER BOX -->
+    <div class="filter-box">
+        <h3>Categories</h3>
+
+        <!-- ALL -->
+        <a href="{% url 'shop' %}">All</a>
+
+        <!-- CATEGORY LINKS -->
+        {% for cat in categories %}
+            <a href="?category={{ cat.id }}&min_price={{ request.GET.min_price }}&max_price={{ request.GET.max_price }}">
+                {{ cat.name }}
+            </a>
+        {% endfor %}
+
+        <!-- PRICE FILTER -->
+        <h3 style="margin-top:20px;">Price</h3>
+
+        <form method="GET">
+
+            <!-- KEEP CATEGORY -->
+            <input type="hidden" name="category" value="{{ request.GET.category }}">
+
+            <input type="number" name="min_price" placeholder="Min Price"
+                   value="{{ request.GET.min_price }}">
+
+            <input type="number" name="max_price" placeholder="Max Price"
+                   value="{{ request.GET.max_price }}">
+
+            <button type="submit">Apply</button>
+        </form>
+
+        <!-- QUICK PRICE -->
+        <div class="quick-price">
+
+            <a href="?category={{ request.GET.category }}&min_price=0&max_price=500">
+                Below ₹500
+            </a>
+
+            <a href="?category={{ request.GET.category }}&min_price=500&max_price=1000">
+                ₹500 - ₹1000
+            </a>
+
+            <a href="?category={{ request.GET.category }}&min_price=1000">
+                Above ₹1000
+            </a>
+
+        </div>
+
+    </div>
+
+    <!-- PRODUCTS -->
+    <div class="product-grid">
+
+        {% for product in products %}
+        <div class="product-card">
+
+            <!-- 🔥 CLICKABLE PRODUCT -->
+            <a href="{% url 'product_detail' product.id %}" class="product-link">
+                {% if product.image %}
+                    <img src="{{ product.image.url }}">
+                {% endif %}
+
+                <h4>{{ product.name }}</h4>
+            </a>
+
+            <p class="price">₹{{ product.price }}</p>
+
+            {% if product.stock > 0 %}
+                <a href="{% url 'add_to_cart' product.id %}" class="cart-btn">
+                    Add to Cart
+                </a>
+            {% else %}
+                <p class="out">Out of Stock</p>
+            {% endif %}
+
+        </div>
+        {% empty %}
+            <p>No products found</p>
+        {% endfor %}
+
+    </div>
+
+</div>
+
+<!-- 🔥 PAGINATION -->
+<div class="pagination">
+
+    {% if products.has_previous %}
+        <a href="?page=1&category={{ request.GET.category }}&min_price={{ request.GET.min_price }}&max_price={{ request.GET.max_price }}">First</a>
+
+        <a href="?page={{ products.previous_page_number }}&category={{ request.GET.category }}&min_price={{ request.GET.min_price }}&max_price={{ request.GET.max_price }}">Prev</a>
+    {% endif %}
+
+    {% for num in products.paginator.page_range %}
+        {% if products.number == num %}
+            <span class="active">{{ num }}</span>
+        {% else %}
+            <a href="?page={{ num }}&category={{ request.GET.category }}&min_price={{ request.GET.min_price }}&max_price={{ request.GET.max_price }}">
+                {{ num }}
+            </a>
+        {% endif %}
+    {% endfor %}
+
+    {% if products.has_next %}
+        <a href="?page={{ products.next_page_number }}&category={{ request.GET.category }}&min_price={{ request.GET.min_price }}&max_price={{ request.GET.max_price }}">Next</a>
+
+        <a href="?page={{ products.paginator.num_pages }}&category={{ request.GET.category }}&min_price={{ request.GET.min_price }}&max_price={{ request.GET.max_price }}">Last</a>
+    {% endif %}
+
+</div>
+
+{% endblock %}

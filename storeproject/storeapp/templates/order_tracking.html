@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/order_tracking.css' %}">
+{% endblock %}
+
+{% block content %}
+
+<h2 class="page-title">Order Tracking</h2>
+
+<div class="tracking-box">
+
+<h3>Order ID : {{ order.id }}</h3>
+<p class="status">Status : {{ order.status }}</p>
+
+<div class="tracking-steps">
+
+<div class="step {% if order.status == 'Pending' or order.status == 'Processing' or order.status == 'Shipped' or order.status == 'Delivered' %}active{% endif %}">
+<span>Order Placed</span>
+</div>
+
+<div class="step {% if order.status == 'Processing' or order.status == 'Shipped' or order.status == 'Delivered' %}active{% endif %}">
+<span>Processing</span>
+</div>
+
+<div class="step {% if order.status == 'Shipped' or order.status == 'Delivered' %}active{% endif %}">
+<span>Shipped</span>
+</div>
+
+<div class="step {% if order.status == 'Delivered' %}active{% endif %}">
+<span>Delivered</span>
+</div>
+
+</div>
+
+</div>
+
+{% endblock %}

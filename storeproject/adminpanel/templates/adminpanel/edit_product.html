@@ -1,0 +1,59 @@
+{% extends 'adminpanel/base.html' %}
+{% load static %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/edit_product.css' %}">
+{% endblock %}
+
+{% block content %}
+
+<h2>Edit Product</h2>
+
+<form method="POST" enctype="multipart/form-data" class="form-box">
+{% csrf_token %}
+
+<label>Name</label>
+<input type="text" name="name" value="{{ product.name }}">
+
+<label>Price</label>
+<input type="number" name="price" value="{{ product.price }}">
+
+<label>Description</label>
+<textarea name="description">{{ product.description }}</textarea>
+
+<label>Sizes</label>
+<input type="text" name="sizes" value="{{ product.sizes }}" placeholder="S,M,L,XL">
+
+<label>Stock</label>
+<input type="number" name="stock" value="{{ product.stock }}">
+
+<label>Category</label>
+<select name="category">
+{% for c in categories %}
+<option value="{{ c.id }}" {% if c.id == product.category.id %}selected{% endif %}>
+{{ c.name }}
+</option>
+{% endfor %}
+</select>
+
+<label>Subcategory</label>
+<select name="subcategory">
+{% for s in subs %}
+<option value="{{ s.id }}" {% if s.id == product.subcategory.id %}selected{% endif %}>
+{{ s.name }}
+</option>
+{% endfor %}
+</select>
+
+<!-- 🔥 CURRENT IMAGE -->
+<label>Current Image</label><br>
+<img src="{{ product.image.url }}" width="120" style="margin-bottom:10px;">
+
+<label>Change Image</label>
+<input type="file" name="image">
+
+<button type="submit">Update Product</button>
+
+</form>
+
+{% endblock %}

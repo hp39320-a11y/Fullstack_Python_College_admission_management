@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+{% load static %}
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/search.css' %}">
+{% endblock %}
+{% block content %}
+
+<h2>Search Results for "{{query}}"</h2>
+
+<div class="product-list">
+
+{% if products %}
+
+{% for product in products %}
+
+<div class="product">
+
+{% if product.image %}
+<img src="{{product.image.url}}" width="150">
+{% endif %}
+
+<p>{{product.name}}</p>
+<p>₹{{product.price}}</p>
+
+{% if product.stock > 0 %}
+
+<a href="{% url 'add_to_cart' product.id %}">Add to Cart</a>
+<a href="{% url 'buy_now' product.id %}">Buy Now</a>
+
+{% else %}
+
+<p class="error">Out of stock</p>
+
+{% endif %}
+
+<a href="{% url 'add_to_wishlist' product.id %}">❤️</a>
+
+</div>
+
+{% endfor %}
+
+{% else %}
+
+<p>No products found</p>
+
+{% endif %}
+
+</div>
+
+{% endblock %}
