@@ -119,7 +119,17 @@ USE_TZ = True
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 LOGIN_URL = '/login/'
-if os.getenv('USE_SQLITE', 'False').lower() == 'true':
+import sys
+
+# Check if we are running build-time commands or if MySQL env variables are not set
+is_build_or_missing_db = (
+    'collectstatic' in sys.argv or 
+    'check' in sys.argv or
+    os.getenv('USE_SQLITE', 'False').lower() == 'true' or
+    not (os.getenv('DB_NAME') or os.getenv('MYSQLDATABASE'))
+)
+
+if is_build_or_missing_db:
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.sqlite3',
@@ -130,13 +140,14 @@ else:
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.mysql',
-            'NAME': os.getenv('DB_NAME', ''),
-            'USER': os.getenv('DB_USER', ''),
-            'PASSWORD': os.getenv('DB_PASSWORD', ''),
-            'HOST': os.getenv('DB_HOST', 'localhost'),
-            'PORT': os.getenv('DB_PORT', '3306'),
+            'NAME': os.getenv('DB_NAME') or os.getenv('MYSQLDATABASE', ''),
+            'USER': os.getenv('DB_USER') or os.getenv('MYSQLUSER', ''),
+            'PASSWORD': os.getenv('DB_PASSWORD') or os.getenv('MYSQLPASSWORD', ''),
+            'HOST': os.getenv('DB_HOST') or os.getenv('MYSQLHOST', 'localhost'),
+            'PORT': os.getenv('DB_PORT') or os.getenv('MYSQLPORT', '3306'),
         }
     }
+
 
 import os
 MEDIA_URL = '/media/'
