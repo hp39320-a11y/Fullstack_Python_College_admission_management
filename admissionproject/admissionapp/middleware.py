@@ -18,14 +18,16 @@ class AutoMigrateMiddleware:
 
         try:
             return self.get_response(request)
-        except OperationalError:
-            try:
-                call_command('migrate', interactive=False)
-                self.seed_courses()
-                AutoMigrateMiddleware._migrated = True
-            except Exception as e:
-                print("Middleware fallback migration notice:", e)
-            return self.get_response(request)
+        except Exception as e:
+            if "no such table" in str(e) or isinstance(e, OperationalError):
+                try:
+                    call_command('migrate', interactive=False)
+                    self.seed_courses()
+                    AutoMigrateMiddleware._migrated = True
+                    return self.get_response(request)
+                except Exception as ex:
+                    print("Middleware fallback migration notice:", ex)
+            raise e
 
     def seed_courses(self):
         try:
@@ -36,3 +38,4 @@ class AutoMigrateMiddleware:
                 Courses.objects.create(course_name="Bachelor of Computer Applications (BCA)", duration="3 Years", total_seats=50)
         except Exception as e:
             print("Seeding courses notice:", e)
+
