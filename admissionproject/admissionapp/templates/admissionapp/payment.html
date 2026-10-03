@@ -1,53 +1,161 @@
+{% extends 'admissionapp/base.html' %}
 {% load static %}
 
+{% block title %}Application Fee Payment | New Men College{% endblock %}
+
 {% block extra_css %}
-    <link rel="stylesheet" href="{% static 'admissionapp/css/student_register.css' %}">
+<style>
+    .payment-wrapper {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 70vh;
+        padding: 40px 20px;
+    }
+
+    .payment-container {
+        width: 100%;
+        max-width: 500px;
+        padding: 45px 35px;
+        background: rgba(15, 23, 42, 0.9);
+        backdrop-filter: blur(20px);
+        -webkit-backdrop-filter: blur(20px);
+        border: 1px solid rgba(255, 255, 255, 0.12);
+        border-radius: 24px;
+        box-shadow: 0 25px 60px rgba(0, 0, 0, 0.6);
+        text-align: center;
+        color: #ffffff;
+    }
+
+    .payment-badge {
+        display: inline-block;
+        padding: 6px 18px;
+        background: rgba(56, 189, 248, 0.15);
+        color: #38bdf8;
+        border: 1px solid rgba(56, 189, 248, 0.3);
+        border-radius: 20px;
+        font-size: 0.85rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        margin-bottom: 24px;
+    }
+
+    .payment-title {
+        font-size: 2.2rem;
+        font-weight: 800;
+        margin-bottom: 12px;
+        color: #ffffff;
+        letter-spacing: -0.5px;
+    }
+
+    .payment-subtitle {
+        color: #94a3b8;
+        font-size: 1.05rem;
+        margin-bottom: 35px;
+        line-height: 1.5;
+    }
+
+    .amount-card {
+        background: rgba(255, 255, 255, 0.05);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 18px;
+        padding: 24px;
+        margin-bottom: 35px;
+    }
+
+    .amount-label {
+        font-size: 0.9rem;
+        color: #94a3b8;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        margin-bottom: 8px;
+    }
+
+    .amount-value {
+        font-size: 2.8rem;
+        font-weight: 800;
+        color: #38bdf8;
+    }
+
+    .razorpay-payment-button, .btn-test-pay {
+        width: 100%;
+        background: linear-gradient(135deg, #0ea5e9 0%, #2563eb 100%);
+        color: #ffffff;
+        border: none;
+        padding: 16px 28px;
+        font-size: 1.15rem;
+        font-weight: 700;
+        border-radius: 14px;
+        cursor: pointer;
+        box-shadow: 0 8px 25px rgba(14, 165, 233, 0.4);
+        transition: all 0.3s ease;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+    }
+
+    .razorpay-payment-button:hover, .btn-test-pay:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 12px 35px rgba(14, 165, 233, 0.6);
+        background: linear-gradient(135deg, #0284c7 0%, #1d4ed8 100%);
+    }
+
+    .test-notice {
+        margin-top: 20px;
+        font-size: 0.85rem;
+        color: #64748b;
+    }
+</style>
 {% endblock %}
 
 {% block content %}
-<div class="container" style="max-width: 500px; margin: 80px auto; padding: 40px; background: rgba(255, 255, 255, 0.05); filter: drop-shadow(0 8px 32px rgba(0,0,0,0.3)); border-radius: 20px; border: 1px solid rgba(255, 255, 255, 0.1); text-align: center; color: white;">
-    <h2 style="font-size: 2rem; font-weight: 800; margin-bottom: 15px;">Application Fee</h2>
-    <p style="color: #aaa; margin-bottom: 40px; font-size: 1.1rem;">Please pay the application fee of INR {{ amount }} to complete your final step.</p>
-    
-    <form action="{% url 'payment_success' %}" method="POST">
-        {% csrf_token %}
-        <!-- Hidden inputs if razorpay needs fallback but checkout.js handles it automagically -->
-        <input type="hidden" name="razorpay_order_id" id="order-id" value="{{ razorpay_order_id }}">
-        
-        <script
-            src="https://checkout.razorpay.com/v1/checkout.js"
-            data-key="{{ razorpay_merchant_key }}" 
-            data-amount="{{ amount|add:0|stringformat:'s'|add:'00' }}"
-            data-currency="INR"
-            data-order_id="{{ razorpay_order_id }}"
-            data-buttontext="Pay with Razorpay 🔒"
-            data-name="New Men College"
-            data-description="Application Processing Fee"
-            data-prefill.name="{{ student.first_name }} {{ student.last_name }}"
-            data-prefill.email="{{ student.email }}"
-            data-prefill.contact="{{ student.phone }}"
-            data-theme.color="#4facfe">
-        </script>
-    </form>
-    
-    <style>
-        /* Customizing the Razorpay default wrapper button */
-        .razorpay-payment-button {
-            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
-            color: white;
-            border: none;
-            padding: 15px 30px;
-            font-size: 1.2rem;
-            font-weight: bold;
-            border-radius: 12px;
-            cursor: pointer;
-            box-shadow: 0 5px 15px rgba(0, 242, 254, 0.3);
-            transition: all 0.3s ease;
-        }
-        .razorpay-payment-button:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 20px rgba(0, 242, 254, 0.4);
-        }
-    </style>
+<div class="payment-wrapper">
+    <div class="payment-container">
+        <div class="payment-badge">Final Step</div>
+        <h2 class="payment-title">Application Fee</h2>
+        <p class="payment-subtitle">Please pay the application fee to complete your admission process.</p>
+
+        <div class="amount-card">
+            <div class="amount-label">Amount Payable</div>
+            <div class="amount-value">₹ {{ amount }}</div>
+        </div>
+
+        {% if razorpay_merchant_key %}
+        <form action="{% url 'payment_success' %}" method="POST">
+            {% csrf_token %}
+            <input type="hidden" name="razorpay_order_id" id="order-id" value="{{ razorpay_order_id }}">
+            
+            <script
+                src="https://checkout.razorpay.com/v1/checkout.js"
+                data-key="{{ razorpay_merchant_key }}" 
+                data-amount="{{ amount|add:0|stringformat:'s'|add:'00' }}"
+                data-currency="INR"
+                data-order_id="{{ razorpay_order_id }}"
+                data-buttontext="Pay with Razorpay 🔒"
+                data-name="New Men College"
+                data-description="Application Processing Fee"
+                data-prefill.name="{{ student.first_name }} {{ student.last_name }}"
+                data-prefill.email="{{ student.email }}"
+                data-prefill.contact="{{ student.phone }}"
+                data-theme.color="#0ea5e9">
+            </script>
+        </form>
+        {% else %}
+        <!-- Fallback Payment Form for test/demo mode -->
+        <form action="{% url 'payment_success' %}" method="POST">
+            {% csrf_token %}
+            <input type="hidden" name="razorpay_order_id" value="{{ razorpay_order_id }}">
+            <input type="hidden" name="razorpay_payment_id" value="pay_test_{{ student.student_id }}">
+            <input type="hidden" name="razorpay_signature" value="sig_test_dummy">
+            
+            <button type="submit" class="btn-test-pay">
+                <span>Pay ₹{{ amount }} (Test Mode)</span> 🔒
+            </button>
+        </form>
+        <p class="test-notice">💡 Razorpay live keys not set. Click above to test completing the application payment.</p>
+        {% endif %}
+    </div>
 </div>
 {% endblock %}
